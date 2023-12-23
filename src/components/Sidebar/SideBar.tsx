@@ -5,8 +5,11 @@ import {BsFillPersonFill} from "react-icons/bs";
 import {MdLocationOn} from "react-icons/md";
 import Searchbar from "./Searchbar.tsx";
 import CategorieBar from "../CategorieBar/CategorieBar.tsx";
+import LocationComponent from "../Directory/LocationComponent.tsx";
 
 const SideBar = () => {
+
+
     return (
         <>
             <div
@@ -17,7 +20,7 @@ const SideBar = () => {
                         <Searchbar></Searchbar>
                     </div>
                     <div className="flex flex-row justify-around w-full md:w-auto">
-                        <SideBarIcon icon={<MdLocationOn size="20"/>} text={"Delivery Address"}/>
+
                         <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"}/>
                         <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"}/>
                         <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping Card"}/>
@@ -26,6 +29,11 @@ const SideBar = () => {
                 <div className="bg-category w-full">
                     <CategorieBar></CategorieBar>
                 </div>
+                <div className="flex items-center">
+                    <SideBarIcon icon={<MdLocationOn size="20"/>} text="Delivery Address"/>
+                    <LocationComponent/>
+                </div>
+
             </div>
 
 
