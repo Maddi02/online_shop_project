@@ -1,17 +1,22 @@
-import {GeoProvider, Location as GeoLocation} from "../../utilits/geoProvider.ts";
-import {useState, useEffect} from "react";
+import { useState, useEffect, useCallback } from "react";
+import { GeoProvider, Location as GeoLocation } from "../../utilits/geoProvider";
 
 const LocationComponent = () => {
-    const [geoInfo, setGeoInfo] = useState<GeoLocation | null>(null); // Changed the state type to GeoLocation | null
+    const [geoInfo, setGeoInfo] = useState<GeoLocation | null>(null);
     const geoProvider = GeoProvider.getInstance();
 
-    const fetchLocation = async () => {
-        const ipInfo: GeoLocation = await geoProvider.fetchIPInfo();
-        setGeoInfo(ipInfo);
-    };
+    const fetchLocation = useCallback(async () => {
+        try {
+            const ipInfo: GeoLocation = await geoProvider.fetchIPInfo();
+            setGeoInfo(ipInfo);
+        } catch (error) {
+            console.error("Error fetching location info:", error);
+        }
+    }, [geoProvider]);
+
     useEffect(() => {
-        fetchLocation().catch(Error)
-    }, []);
+        fetchLocation().catch(Error);
+    }, [fetchLocation]);
 
     return (
         <div>
