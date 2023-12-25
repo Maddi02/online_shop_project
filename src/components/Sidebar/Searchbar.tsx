@@ -10,7 +10,7 @@ const Searchbar = () => {
                         <MdSearch size="20" color="black"/>
                     </div>
                     <input type="search" id="search"
-                           className="block w-full pl-10 pr-20 text-sm border-none rounded-l-lg focus:ring-0"
+                           className="block w-full pl-10 pr-20 text-sm border-none rounded-l-lg focus:ring-0 text-gray-600"
                            placeholder="Search your favorite product" required/>
                     <button type="submit"
                             className="px-4 text-white bg-yellow-600  border-l-2 border-yellow-600 hover:bg-yellow-700 focus:ring-0 focus:border-yellow-700">
