@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-var cors = require('cors')
+var cors = require('cors');
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -16,15 +16,15 @@ const app = express();
 app.use(cors({
   origin:"http://localhost:3000",
   credentials:true
-}))
+}));
 
 //default port if an error occurred
 let port =3020;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 
@@ -66,7 +66,7 @@ switch (process.argv[2]){
 }
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`);
 });
 
 
