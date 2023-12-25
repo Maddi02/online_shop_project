@@ -5,7 +5,7 @@ import {BsFillPersonFill} from "react-icons/bs";
 import {MdLocationOn} from "react-icons/md";
 import Searchbar from "./Searchbar.tsx";
 import CategorieBar from "../CategorieBar/CategorieBar.tsx";
-import LocationComponent from "../Directory/LocationComponent.tsx";
+import LocationComponent from "../Location/LocationComponent.tsx";
 import {useNavigate} from "react-router-dom";
 
 const SideBar = () => {
@@ -31,7 +31,7 @@ const SideBar = () => {
     return (
         <>
             <div
-                className="fixed top-0 left-0 w-screen m-0 flex flex-col  md:justify-start  bg-sidebar text-white shadow-lg">
+                className="flex top-0 left-0 ms:h-15 w-screen m-0 flex-col  md:justify-start  bg-sidebar text-white shadow-lg">
                 <div className="w-full flex flex-col md:flex-row justify-start items-center">
                     <div className="flex items-center" onClick={handelHomeClick}>
                         <span className="font-bold text-xl ml-4 mr-2">Maddizone</span>
@@ -52,11 +52,12 @@ const SideBar = () => {
                 <div className="bg-category w-full">
                     <CategorieBar></CategorieBar>
                 </div>
+
                 <div className="flex items-center">
                     <SideBarIcon icon={<MdLocationOn size="20"/>} text="Delivery Address"/>
                     <LocationComponent/>
-                </div>
 
+                </div>
             </div>
 
 

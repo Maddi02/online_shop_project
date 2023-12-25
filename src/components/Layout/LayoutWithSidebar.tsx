@@ -1,6 +1,5 @@
-
 import SideBar from "../Sidebar/SideBar.tsx";
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 
 type LayoutWithSidebarProps = {
   children: ReactNode;
@@ -8,9 +7,9 @@ type LayoutWithSidebarProps = {
 
 const LayoutWithSidebar: React.FC<LayoutWithSidebarProps> = ({ children }) => {
   return (
-    <div className="flex">
-      <SideBar />
-      <div className="content">
+    <div className="flex flex-col">
+      <SideBar/>
+      <div>
         {children}
       </div>
     </div>
