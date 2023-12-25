@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { GeoProvider, Location as GeoLocation } from "../../utilits/geoProvider";
+import { GeoProvider, Location as GeoLocation } from "../../utilits/Location/geoProvider.ts";
 
 const LocationComponent = () => {
     const [geoInfo, setGeoInfo] = useState<GeoLocation | null>(null);

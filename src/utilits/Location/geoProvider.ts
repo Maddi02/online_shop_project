@@ -1,3 +1,4 @@
+
 export interface Location {
     as: string;
     city: number;
@@ -14,8 +15,11 @@ export interface Location {
     zip: string
 }
 
+
 export class GeoProvider {
     private static instance: GeoProvider;
+
+
 
     private constructor() {
     }
