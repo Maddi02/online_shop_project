@@ -3,23 +3,23 @@ import FormInput, {useFormInput} from "./FormInput.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
 import React, {useState} from "react";
-import {loginUser} from "../../utilits/State/authSlice";
+import {loginUser} from "../../utilits/State/authSlice.ts";
 import Popup from "../../utilits/ErrorMessage.tsx";
 
 interface PopupState {
     show: boolean;
     message: string;
 }
+
 const SignIn = () => {
     const email = useFormInput('');
     const password = useFormInput('');
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>()
     const authState = useSelector((state: RootState) => state.auth);
-     const [popup, setPopup] = useState<PopupState>({show: false, message: ''});
+    const [popup, setPopup] = useState<PopupState>({show: false, message: ''});
 
     const handleHomeNavigation = () => {
-
         navigate('/home');
     };
 
@@ -28,14 +28,15 @@ const SignIn = () => {
         dispatch(loginUser({
             email: email.value,
             password: password.value
-        }))
+        }));
+        console.log(authState.user);
     };
 
     React.useEffect(() => {
         if (authState.error) {
-            setPopup({show: true, message: 'Registration successful! \n Redirecting to Home Page'});
+            setPopup({show: true, message: 'Wrong username or password!'});
         } else if (authState.user) {
-                 // handleHomeNavigation()
+            handleHomeNavigation()
         }
 
         // Hide popup after a delay
@@ -93,7 +94,7 @@ const SignIn = () => {
                 </div>
             </div>
             <div>
-                 {popup.show && <Popup message={popup.message}/>}
+                {popup.show && <Popup message={popup.message}/>}
             </div>
         </div>
     );

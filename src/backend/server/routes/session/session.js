@@ -47,11 +47,12 @@ module.exports = function (app){
         let userData = req.body;
         let user = await User.findOne({ email: userData.email });
         if(user){
+
             let pw = SHA256(userData.password);
 
             if(user.password === pw.toString()){
                 generateToken(res,userData.email, user._id);
-                res.status(201).send("successfully signed in!");
+                res.status(201).json({ message: "Successfully signed in", user: user });
             }else{
                 res.status(401).send("user or password wrong!");
             }
@@ -64,6 +65,6 @@ module.exports = function (app){
 
     app.post('/logout', function(req,res){
         res.clearCookie('token');
-        res.status(200).send("logout successful")
+        res.status(200).send("logout successful");
     });
 }

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import locationReducer from './locationsSlice'; // If this is a TypeScript file
-import authReducer from './authSlice';
+import authReducer from './authSlice.ts';
 
 export const store = configureStore({
     reducer: {
