@@ -14,7 +14,6 @@ let userSchema = new mongoose.Schema({
     savedRecipes:[{type:mongoose.Schema.Types.ObjectId, ref:'Recipe'}]
 });
 
-const userModel = mongoose.model('user',userSchema);
+const userModel = mongoose.model('users',userSchema);
 
 module.exports = userModel;
-

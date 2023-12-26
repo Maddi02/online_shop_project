@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {GeoProvider} from '../../Location/geoProvider.ts';
+import {GeoProvider} from '../Location/geoProvider.ts';
 import { AxiosError } from 'axios';
 
 export const fetchLocation = createAsyncThunk(
@@ -12,7 +12,6 @@ export const fetchLocation = createAsyncThunk(
        if (error instanceof AxiosError && error.response) {
         return rejectWithValue(error.response.data);
         } else {
-        // Handle the case where the error structure is not as expected
         return rejectWithValue('An unexpected error occurred');
       }
     }

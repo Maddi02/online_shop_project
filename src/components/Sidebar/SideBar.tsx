@@ -7,13 +7,21 @@ import Searchbar from "./Searchbar.tsx";
 import CategorieBar from "../CategorieBar/CategorieBar.tsx";
 import LocationComponent from "../Location/LocationComponent.tsx";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootState} from "../../utilits/State/store.ts";
 
 const SideBar = () => {
-
+    const authState = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        navigate('/login');
+       if(!authState.user){
+             navigate('/login');
+        }
+       else{
+           navigate("/profile")
+       }
+
     };
 
     const handleOrdersClick = () => {

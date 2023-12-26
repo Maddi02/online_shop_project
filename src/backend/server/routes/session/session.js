@@ -1,4 +1,4 @@
-const User = require('../../models/user');
+const User = require('../../models/user.js');
 const SHA256 = require("crypto-js/sha256");
 const jwt = require('jsonwebtoken');
 
