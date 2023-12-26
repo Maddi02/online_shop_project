@@ -1,7 +1,7 @@
 
 export interface Location {
     as: string;
-    city: number;
+    city: string;
     country: string;
     isp: string;
     lat: number;
