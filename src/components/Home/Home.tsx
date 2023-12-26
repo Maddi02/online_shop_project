@@ -3,7 +3,7 @@
 const Home = () => {
     return (
 
-        <div className=" space-y-1000">
+        <div>
             <h1>TESTETS</h1>
         </div>
 

@@ -25,13 +25,13 @@ const SideBar = () => {
     };
 
     const handleShoppingCartClick = () => {
-        navigate('/cart');
+        navigate('/shoppingCard');
     };
 
     return (
         <>
             <div
-                className="flex top-0 left-0 ms:h-15 w-screen m-0 flex-col  md:justify-start  bg-sidebar text-white shadow-lg">
+                className="flex top-0 left-0 ms:h-15 w-screen m-0 flex-col  md:justify-start  bg-sidebar text-white shadow -lg">
                 <div className="w-full flex flex-col md:flex-row justify-start items-center">
                     <div className="flex items-center" onClick={handelHomeClick}>
                         <span className="font-bold text-xl ml-4 mr-2">Maddizone</span>
@@ -45,7 +45,7 @@ const SideBar = () => {
 
                         <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"} onClick={handleLoginClick}/>
                         <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"} onClick={handleOrdersClick}/>
-                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping Card"}
+                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"}
                                      onClick={handleShoppingCartClick}/>
                     </div>
                 </div>
