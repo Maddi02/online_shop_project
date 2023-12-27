@@ -46,7 +46,8 @@ export const registerUser = createAsyncThunk<User, {
     async (User, {rejectWithValue}) => {
         try {
             const response = await axiosInstance.post('/signup', User);
-            return response.data;
+            console.log(response.data)
+            return response.data.user;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
                 if (error && error.response) {

@@ -1,13 +1,18 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
-import {logoutUser} from "../../utilits/State/authSlice.ts";
+import {User, logoutUser} from "../../utilits/State/authSlice.ts";
 import {useNavigate} from "react-router-dom";
+import {useMemo} from "react";
 
 const UserProfile = () => {
     const authState = useSelector((state: RootState) => state.auth);
-    const dispatch = useDispatch<AppDispatch>()
-    const navigate = useNavigate()
-    const logout= () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+
+
+    const user: User | null = useMemo(() => authState.user, [authState.user]);
+
+    const logout = () => {
         console.log("Wanna lock out ")
         dispatch(logoutUser())
         if (authState.loading) {
@@ -16,20 +21,18 @@ const UserProfile = () => {
         if (authState.error) {
             return <div>Error: {authState.error}</div>;
         }
-        
-        if(authState.status == "succeeded"){
-           navigate('/home');
+        if (authState.status === "succeeded") {
+            navigate('/home');
         }
     }
 
 
     return (
         <div className="flex-row">
-            Usr Profile {authState.user?.firstname}
+            User Profile {user ? user.firstname : "Not logged in"}
             <button onClick={logout}>Logout</button>
         </div>
-
-    )
+    );
 }
 
-export default UserProfile
+export default UserProfile;

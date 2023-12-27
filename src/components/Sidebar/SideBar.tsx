@@ -52,10 +52,9 @@ const SideBar = () => {
                     </div>
                     <div className="flex flex-row justify-around w-full md:w-auto">
 
-                        <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"} onClick={handleLoginClick}/>
-                        <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"} onClick={handleOrdersClick}/>
-                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"}
-                                     onClick={handleShoppingCartClick}/>
+                        <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"} onClick={handleLoginClick} content={authState.user?.lastname}/>
+                        <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"} onClick={handleOrdersClick} content="0"/>
+                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"} onClick={handleShoppingCartClick} content="0"/>
                     </div>
                 </div>
                 <div className="bg-category w-full">

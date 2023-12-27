@@ -55,7 +55,7 @@ const Register = () => {
                 setPopup({show: true, message: 'Registration failed: ' + authState.error});
             } else if (authState.user) {
                 setPopup({show: true, message: 'Registration successful! \n Redirecting to Home Page'});
-                // Navigate to home or another page if needed
+                handleHomeNavigation()
             }
 
             // Hide popup after a delay

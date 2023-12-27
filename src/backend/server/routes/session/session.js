@@ -34,7 +34,7 @@ module.exports = function (app){
                     res.status(422).send("data are not correct!");
                 }else{
                     generateToken(res,userData.email, user._id);
-                    res.status(201).send("successfully signed up!");
+                    res.status(201).json({message: "successfully signed up!", user: user});
                 }
             });
         }else{
