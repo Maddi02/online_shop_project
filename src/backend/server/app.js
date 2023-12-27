@@ -1,68 +1,93 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const dotenv = require("dotenv");
-dotenv.config();
+var cors = require('cors');
 
-const DatabaseConnection = require('./dbConnection.js'); // Assuming dbConnection.js exports the DatabaseConnection class
+const dotenv = require("dotenv");
 
 const app = express();
+const session = require('express-session');
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  methods: ["GET", "POST"],
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false, // should be false to avoid storing sessions that haven't been modified
+  cookie: {
+    secure: false, // set this to true if you're on https, false if not
+    httpOnly: true, // to prevent client side JS from reading the cookie
+    sameSite: 'lax', // protection against CSRF
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
-// Default port if an error occurred
-let port = 3020;
+
+
+dotenv.config();
+
+const initDatabaseConnection = require('./dbConnection.js');
+
+
+
+
+
+
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}));
+
+//default port if an error occurred
+let port =3020;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+
 app.use('/images', express.static(__dirname + '/images'));
 
-async function startServer() {
-  try {
-    await DatabaseConnection.initConnection(process.argv[2]); // Initialize the connection
 
-    switch (process.argv[2]) {
-      case "shop":
-        port = 3005;
-        require('./routes/shop/routes')(app);
-        require('./routes/session/session')(app);
-        break;
-      case "fastfood":
-        port = 3010;
-        require('./routes/fastfood/routes')(app);
-        break;
-      case "fitness":
-        port = 3015;
-        require('./routes/fitness/routes')(app);
-        break;
-      case "carrental":
-        port = 3025;
-        require('./routes/carrental/routes')(app);
-        break;
-      case "cookbook":
-        port = 3030;
-        require('./routes/cookbook/routes')(app);
-        break;
-      default:
-        app.get('/', (req, res) => {
-          res.send('something went wrong');
-        });
-    }
+initDatabaseConnection(process.argv[2]);
 
-    app.listen(port, () => {
-      console.log(`Example app listening at http://localhost:${port}`);
+
+require('./routes/session/session')(app);
+
+
+
+switch (process.argv[2]){
+  case "shop":
+    port =3005;
+    require('./routes/shop/routes')(app);
+    break;
+  case "fastfood":
+    port =3010;
+    require('./routes/fastfood/routes')(app);
+    break;
+  case "fitness":
+    port =3015;
+    require('./routes/fitness/routes')(app);
+    break;
+  case "carrental":
+    port =3025;
+    require('./routes/carrental/routes')(app);
+    break;
+  case "cookbook":
+    port =3030;
+    require('./routes/cookbook/routes')(app);
+    break;
+  default:
+    app.get('/', (req, res) => {
+      res.send('something went wrong');
     });
-  } catch (error) {
-    console.error('Error starting the server:', error);
-  }
 }
 
-startServer();
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+});
+
+
+
+

@@ -36,6 +36,7 @@ const SignIn = () => {
         if (authState.error) {
             setPopup({show: true, message: 'Wrong username or password!'});
         } else if (authState.user) {
+            console.log("Hallo")
             handleHomeNavigation()
         }
 

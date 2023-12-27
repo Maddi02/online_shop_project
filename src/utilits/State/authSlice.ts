@@ -65,7 +65,6 @@ export const loginUser = createAsyncThunk<User, { email: string, password: strin
     async (credentials, {rejectWithValue}) => {
         try {
             const response = await axiosInstance.post('/login', credentials);
-            console.log(response);
             return response.data.user;
         } catch (error: unknown) {
             // First, check if it's an AxiosError

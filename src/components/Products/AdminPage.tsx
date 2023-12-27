@@ -1,12 +1,13 @@
 import  { useState } from 'react';
 import Sidebar, { SidebarItem } from "./HamburgerSideBar";
-import { LuUndo2 } from "react-icons/lu"; // Make sure to replace with your actual icon import
 import AddNewProduct from "./AddNewProduct.tsx";
 import AddNewCategorie from "./AddNewCategorie.tsx";
-import AddNewSubCategorie from "./AddNewSubCategorie.tsx"; // Make sure this import is correct
-
+import AddNewSubCategorie from "./AddNewSubCategorie.tsx";
+import { FaProductHunt } from "react-icons/fa";
+import { FaServer } from "react-icons/fa";
+import { FaStream } from "react-icons/fa";
 const AdminPage = () => {
-    const [content, setContent] = useState('form'); // 'form', 'signin', or 'userprofile'
+    const [content, setContent] = useState('form');
 
     const showSignIn = () => {
         setContent('newproduct');
@@ -24,9 +25,9 @@ const AdminPage = () => {
         <div className="flex">
             {/* Sidebar */}
             <Sidebar>
-                <SidebarItem icon={<LuUndo2 size="20"/>} text="Add new Product" onClick={showSignIn} alert={false} />
-                <SidebarItem icon={<LuUndo2 size="20"/>} text="Add new Categorie" onClick={showUserProfile} alert={false} />
-                <SidebarItem icon={<LuUndo2 size="20"/>} text="Add new Subcategorie" onClick={showForm} alert={false} />
+                <SidebarItem icon={<FaProductHunt size="20"/>} text="Add new Product" onClick={showSignIn} alert={false} />
+                <SidebarItem icon={<FaServer size="20"/>} text="Add new Categorie" onClick={showUserProfile} alert={false} />
+                <SidebarItem icon={<FaStream size="20"/>} text="Add new Subcategorie" onClick={showForm} alert={false} />
             </Sidebar>
 
             <div className="flex-grow ">

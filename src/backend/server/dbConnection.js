@@ -1,34 +1,25 @@
-// Import the mongoose module
+//Import the mongoose module
 const mongoose = require('mongoose');
 
-class DatabaseConnection {
-  static instance = null;
 
-  static async initConnection(database) {
-    if (this.instance) {
-      console.log('MongoDB connection already established.');
-      return this.instance;
-    }
-
-    try {
-      const mongoDB = `mongodb://127.0.0.1:27017/${database}`;
-      await mongoose.connect(mongoDB, {
+function initDatabaseConnection (database){
+    //Set up default mongoose connection
+    const mongoDB = `mongodb://127.0.0.1:27017/${database}`;
+    mongoose.connect(mongoDB, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
-      });
-      console.log('MongoDB connected.');
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    });
 
-      this.instance = mongoose.connection;
-      return this.instance;
-    } catch (error) {
-      console.error('MongoDB connection error:', error);
-      throw error;
-    }
-  }
+    //Get the default connection
+    const db = mongoose.connection;
 
-  static getInstance() {
-    return this.instance;
-  }
+    //Bind connection to error event (to get notification of connection errors)
+    db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+    db.once('open', function() {
+        console.log("MongoDB connected");
+    });
 }
 
-module.exports = DatabaseConnection;
+module.exports = initDatabaseConnection;
