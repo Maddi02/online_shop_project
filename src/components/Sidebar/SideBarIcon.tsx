@@ -16,7 +16,7 @@ const SideBarIcon: React.FC<Props> = ({ icon, content, text = 'tooltip', onClick
         {icon}
         <div className="flex flex-col items-center">
             <div className="text-xs">{content}</div>
-            <span className="sidebar-tooltip group-hover:scale-100 mt-2">{text}</span>
+            <span className="sidebar-tooltip group-hover:scale-100 mt-2 text-sm">{text}</span>
         </div>
     </div>
 );

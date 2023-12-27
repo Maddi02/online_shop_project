@@ -9,7 +9,6 @@ const UserProfile = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-
     const user: User | null = useMemo(() => authState.user, [authState.user]);
 
     const logout = () => {
@@ -26,11 +25,41 @@ const UserProfile = () => {
         }
     }
 
+    const handleHomeNavigation = () => {
+        navigate('/home');
+    };
 
     return (
-        <div className="flex-row">
-            User Profile {user ? user.firstname : "Not logged in"}
-            <button onClick={logout}>Logout</button>
+        <div className="flex flex-col items-center pt-20 bg-gray-100 min-h-screen">
+            <div className="bg-white rounded-lg border shadow-lg p-12">
+                <div onClick={handleHomeNavigation}>
+                    <img
+                        className="mx-auto h-12 w-auto"
+                        src="src/assets/madiizne.png" // Replace with your logo url
+                        alt="Workflow"
+                    />
+                    <h2 className="mt-6 text-xl font-extrabold text-gray-900">
+                        User Profile
+                    </h2>
+                </div>
+                <div className="mt-4 ">
+                    <p className="font-bold text-sm">Full Name: <span
+                        className="font-normal text-sm">{user ? user.firstname : "Loading..."}</span></p>
+                    <p className="font-bold text-sm mt-2">Last Name: <span
+                        className="font-normal text-sm">{user ? user.lastname : "Loading..."}</span></p>
+                    <p className="font-bold text-sm mt-2">City: <span
+                        className="font-normal text-sm">{user ? user.city : "Loading..."}</span></p>
+                    <p className="font-bold text-sm mt-2">Country: <span
+                        className="font-normal text-sm">{user ? user.country : "Loading..."}</span></p>
+                    <p className="font-bold text-sm mt-2">Street: <span
+                        className="font-normal text-sm">{user ? user.street : "Loading..."}</span></p>
+                    <p className="font-bold text-sm mt-2">Postcode: <span
+                        className="font-normal text-sm">{user ? user.postcode : "Loading..."}</span></p>
+                    <button onClick={logout}
+                            className="mt-5 w-full text-white p-2 rounded text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Logout
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
