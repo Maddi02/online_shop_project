@@ -25,6 +25,10 @@ const UserProfile = () => {
         }
     }
 
+    const handelAdminPage = () => {
+        navigate('/adminPage');
+    }
+
     const handleHomeNavigation = () => {
         navigate('/home');
     };
@@ -49,6 +53,8 @@ const UserProfile = () => {
                         className="font-normal text-sm">{user ? user.lastname : "Loading..."}</span></p>
                     <p className="font-bold text-sm mt-2">City: <span
                         className="font-normal text-sm">{user ? user.city : "Loading..."}</span></p>
+                    <p className="font-bold text-sm mt-2">Email: <span
+                        className="font-normal text-sm">{user ? user.email : "Loading..."}</span></p>
                     <p className="font-bold text-sm mt-2">Country: <span
                         className="font-normal text-sm">{user ? user.country : "Loading..."}</span></p>
                     <p className="font-bold text-sm mt-2">Street: <span
@@ -58,6 +64,11 @@ const UserProfile = () => {
                     <button onClick={logout}
                             className="mt-5 w-full text-white p-2 rounded text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Logout
                     </button>
+                    {user?.email === "martin.hummel02@icloud.com" &&
+                        <button onClick={handelAdminPage}
+                                className="mt-5 w-full text-white p-2 rounded text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Add new Product
+                        </button>
+                    }
                 </div>
             </div>
         </div>

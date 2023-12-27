@@ -6,6 +6,7 @@ import Orders from "./components/Orders/Orders.tsx";
 import ShoopingCard from "./components/ShoppingCard/ShoopingCard.tsx";
 import Register from "./components/Auth/Register.tsx";
 import UserProfile from "./components/Auth/UserProfile.tsx";
+import AdminPage from "./components/Products/AdminPage.tsx";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<UserProfile/>} />
+        <Route path="/adminPage" element={<AdminPage/>} />
         <Route path="/home" element={<LayoutWithSidebar><Home /></LayoutWithSidebar>} />
         <Route path="/orders" element={<LayoutWithSidebar><Orders/></LayoutWithSidebar>} />
         <Route path="/shoppingCard" element={<LayoutWithSidebar><ShoopingCard/></LayoutWithSidebar>} />
