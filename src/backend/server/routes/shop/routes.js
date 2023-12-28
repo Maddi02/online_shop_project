@@ -6,6 +6,7 @@ const Subcategory = require('../../models/shop/subcategory');
 const Rate = require('../../models/shop/rate');
 
 const verifyToken = require('../session/verifyToken');
+const {Types} = require("mongoose");
 
 
 module.exports = function (app) {
@@ -44,6 +45,7 @@ module.exports = function (app) {
     app.get('/shop/categories/', async function (req, res) {
         try {
             let categories = await Category.find();
+            console.log(categories)
             res.status(200).send(categories);
         } catch (error) {
             let errorObj = {body: req.body, errorMessage: "Server error!"};
@@ -210,24 +212,30 @@ module.exports = function (app) {
     });
 
 
-    app.post('/shop/category', verifyToken, function (req, res) {
+    app.post('/shop/category', async (req, res) => {
         try {
-            let categoryData = req.body;
+            const {name, subcategoryIds} = req.body;
+            const convertedIds = subcategoryIds.map(id => Types.ObjectId(id));
+            const uniqueIds = [...new Set(convertedIds)];
 
-            let category = new Category(categoryData);
-            category.save(function (err) {
-                if (err) {
-                    res.status(422).send("Data are not correct!");
-                } else {
-                    res.status(201).send("Category was successfully added!");
-                }
+            // Check for existing category with the same name and subcategoryIds
+            const existingCategory = await Category.findOne({
+                name,
+                subcategoryIds: {$in: uniqueIds}
             });
 
+            if (existingCategory) {
+                return res.status(400).send({message: 'A category with the same name and subcategories already exists.'});
+            }
+
+            const newCategory = new Category({name, subcategoryIds: uniqueIds});
+            await newCategory.save();
+            res.status(201).send(newCategory);
         } catch (error) {
-            let errorObj = {body: req.body, errorMessage: "Server error!"};
-            res.status(500).send(errorObj);
+            res.status(500).send(error);
         }
     });
+
 
     app.post('/shop/subcategory', verifyToken, function (req, res) {
         let categoryData = req.body;

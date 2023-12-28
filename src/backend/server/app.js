@@ -6,32 +6,19 @@ var cors = require('cors');
 const dotenv = require("dotenv");
 
 const app = express();
-const session = require('express-session');
-
-
-
-
 
 dotenv.config();
 
 const initDatabaseConnection = require('./dbConnection.js');
-
-
-
-
-
 
 app.use(cors({
   origin:"http://localhost:5173",
   credentials:true
 }));
 
-//default port if an error occurred
 let port =3020;
 
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
 
