@@ -1,5 +1,7 @@
 import {ChevronLast, ChevronFirst} from "lucide-react"
 import {useContext, createContext, useState, ReactNode} from "react"
+import {useNavigate} from "react-router-dom";
+
 
 
 type SidebarContextType = {
@@ -11,9 +13,14 @@ type SidebarProps = {
     children: ReactNode;
 }
 
+
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
 export default function Sidebar({children}: SidebarProps) {
+    const navigate = useNavigate()
+       const handleHomeNavigation = () => {
+        navigate('/home');
+    };
     const [expanded, setExpanded] = useState(true);
 
     return (
@@ -23,13 +30,14 @@ export default function Sidebar({children}: SidebarProps) {
                     expanded ? 'w-64' : 'hidden' // Adjust these widths as needed
                 }`}
             >
-                <div className="p-4 pb-2 flex justify-between items-center">
+                <div className="p-4 pb-2 flex justify-between items-center" onClick={handleHomeNavigation}>
                     <img
-                        src="https://img.logoipsum.com/243.svg"
+                        src="src/assets/madiizne.png"
                         className={`overflow-hidden transition-all ${
                             expanded ? "w-32" : "w-0"
                         }`}
                         alt="Logo"
+
                     />
                     <button
                         onClick={() => setExpanded((curr) => !curr)}
