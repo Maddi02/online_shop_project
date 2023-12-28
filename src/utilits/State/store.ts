@@ -3,13 +3,15 @@ import locationReducer from './locationsSlice'; // If this is a TypeScript file
 import authReducer from './authSlice.ts';
 import subcategoriesReducer from './subCategorieSlice.ts';
 import categoriesReducer from './categorieSlice.ts';
+import articelsReducer from './productSlice.ts';
 
 export const store = configureStore({
     reducer: {
         location: locationReducer,
         auth: authReducer,
         subcategories: subcategoriesReducer,
-        categories: categoriesReducer
+        categories: categoriesReducer,
+        article: articelsReducer
     }
 });
 

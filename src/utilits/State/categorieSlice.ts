@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Assuming Subcategory is a type imported from subCategorieSlice.ts
+
 import { Subcategory } from "./subCategorieSlice.ts";
 import axiosInstance from "../../api/axios.ts";
 
