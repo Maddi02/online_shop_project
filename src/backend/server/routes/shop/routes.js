@@ -260,25 +260,25 @@ module.exports = function (app) {
     });
 
 
-    app.post('/shop/article', verifyToken, async function (req, res) {
-        try {
-            let articleData = req.body;
-            console.log(articleData.name);
-            // Check for existing article with the same name
-            let existingArticle = await Article.findOne({name: articleData.name});
-            if (existingArticle) {
-                return res.status(409).send("An article with this name already exists."); // 409 Conflict
-            }
+app.post('/shop/product', verifyToken, async function (req, res) {
+    try {
+        let productData = req.body;
 
-            // Create and save the new article
-            let article = new Article(articleData);
-            await article.save();
-            res.status(201).send("Article was successfully added!"); // 201 Created
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({body: req.body, errorMessage: "Server error!"}); // 500 Internal Server Error
+        let existingProduct = await Article.findOne({ name: productData.name });
+        console.log(existingProduct, "existingProduct");
+        if (existingProduct) {
+            return res.status(409).send("A product with this name already exists"); // 409 Conflict
         }
-    });
+
+        // Create and save the new product
+        let product = new Article(productData);
+        await product.save();
+        res.status(201).send("Product was successfully added!"); // 201 Created
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error while processing request"); // 500 Internal Server Error
+    }
+});
 
 
 };

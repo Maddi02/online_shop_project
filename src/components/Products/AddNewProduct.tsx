@@ -73,11 +73,11 @@ const AddNewProduct = () => {
                             alt="Workflow"
                         />
                         <h2 className="mt-6 text-center text-xl font-extrabold text-gray-900">
-                            Categorie
+                            Product Name
                         </h2>
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="categorieName">
-                                Categorie Name
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="productName">
+                                Product Name
                             </label>
                             <input
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
