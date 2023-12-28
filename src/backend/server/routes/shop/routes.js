@@ -260,21 +260,25 @@ module.exports = function (app) {
     });
 
 
-    app.post('/shop/article', verifyToken, function (req, res) {
+    app.post('/shop/article', verifyToken, async function (req, res) {
         try {
             let articleData = req.body;
+            console.log(articleData.name);
+            // Check for existing article with the same name
+            let existingArticle = await Article.findOne({name: articleData.name});
+            if (existingArticle) {
+                return res.status(409).send("An article with this name already exists."); // 409 Conflict
+            }
 
+            // Create and save the new article
             let article = new Article(articleData);
-            article.save(function (err) {
-                if (err) {
-                    res.status(422).send("Data are not correct!");
-                } else {
-                    res.status(201).send("Article was successfully added!");
-                }
-            });
+            await article.save();
+            res.status(201).send("Article was successfully added!"); // 201 Created
         } catch (error) {
-            let errorObj = {body: req.body, errorMessage: "Server error!"};
-            res.status(500).send(errorObj);
+            console.error(error);
+            res.status(500).send({body: req.body, errorMessage: "Server error!"}); // 500 Internal Server Error
         }
     });
-}
+
+
+};

@@ -3,6 +3,7 @@ import {AppDispatch, RootState} from "../../utilits/State/store.ts";
 import React, {useEffect, useState} from "react";
 import {fetchCategories} from "../../utilits/State/categorieSlice.ts";
 import axiosInstance from "../../api/axios.ts";
+import Popup, {PopupState} from "../../utilits/ErrorMessage.tsx";
 
 const AddNewProduct = () => {
 
@@ -16,6 +17,7 @@ const AddNewProduct = () => {
     const [rating, setRating] = useState<number>();
     const [shortDescription, setShortDescription] = useState<string>();
     const [description, setDescription] = useState<string>();
+    const [popup, setPopup] = useState<PopupState>({show: false, message: ''});
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -54,10 +56,10 @@ const AddNewProduct = () => {
             })
                 .then(response => {
                     console.log('Category created:', response.data);
-                     // setPopup({show: true, message: 'Creation Successful'});
+                    setPopup({show: true, message: 'Creation Successful'});
                 })
                 .catch(error => {
-                    // setPopup({show: true, message: error.message});
+                    setPopup({show: true, message: error.message});
                     console.error('Error creating category:', error);
                 });
     }
@@ -193,7 +195,7 @@ const AddNewProduct = () => {
                             </button>
                         </div>
                     </form>
-                    {/*{popup.show && <Popup message={popup.message}/>}*/}
+                    {popup.show && <Popup message={popup.message}/>}
                 </div>
             </div>
         );
