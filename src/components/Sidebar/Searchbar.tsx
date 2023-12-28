@@ -9,13 +9,13 @@ const Searchbar = () => {
 
     const handleInputChange = (event) => {
         setInput(event.target.value);
-        console.log("HH", event.target.value)
-        dispatch(setSearchTerm(input));
+
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        console.log("HH", event.target.value)
+        dispatch(setSearchTerm(input));
     };
 
     return (

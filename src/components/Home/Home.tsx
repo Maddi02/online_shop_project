@@ -15,11 +15,9 @@ const Home = () => {
         dispatch(fetchArticles());
     }, [dispatch]);
 
-    const filteredProducts = searchTerm.length === 1
-        ? products
-        : products.filter((product) =>
-            product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.trim().toLowerCase())
+);
 
     // Debugging
     console.log('Products:', products);
