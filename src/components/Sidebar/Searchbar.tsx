@@ -9,11 +9,13 @@ const Searchbar = () => {
 
     const handleInputChange = (event) => {
         setInput(event.target.value);
+        console.log("HH", event.target.value)
+        dispatch(setSearchTerm(input));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(setSearchTerm(input));
+
     };
 
     return (
@@ -31,7 +33,6 @@ const Searchbar = () => {
                         onChange={handleInputChange} // Update local state on change
                         className="block w-full pl-10 pr-20 text-sm border-none rounded-l-lg focus:ring-0 text-gray-600"
                         placeholder="Search your favorite product"
-                        required
                     />
                     <button
                         type="submit"
