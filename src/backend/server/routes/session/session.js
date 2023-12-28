@@ -1,23 +1,31 @@
-const User = require('../../models/user.js');
+const User = require('../../models/user');
 const SHA256 = require("crypto-js/sha256");
 const jwt = require('jsonwebtoken');
+const verifyToken = require("./verifyToken");
 
 
-function generateToken(res, email,id){
+
+function generateToken(res, email, id) {
     const expiration = 604800000;
     const token = jwt.sign({email, id}, process.env.TOKEN_SECRET, {
-      expiresIn: '7d',
+        expiresIn: '7d',
     });
     return res.cookie('token', token, {
-      expires: new Date(Date.now() + expiration),
-      secure: false, // set to true if your using https
-      httpOnly: true
+        expires: new Date(Date.now() + expiration),
+        secure: false, // set to true if your using https
+        httpOnly: true
     });
 }
 
 
-
 module.exports = function (app) {
+
+
+    app.get('/test-cookie', (req, res) => {
+        res.cookie('token', 'value', {httpOnly: true, sameSite: 'lax'});
+        res.send('Cookie has been set');
+    });
+
 
     app.post('/signup', async function (req, res) {
         let userData = req.body;
@@ -31,7 +39,7 @@ module.exports = function (app) {
                     res.status(422).send("data are not correct!");
                 } else {
                     generateToken(res, userData.email, user._id);
-                    res.status(201).json({message: "successfully signed up!", user: user});
+                    res.status(201).send("successfully signed up!");
                 }
             });
         } else {
@@ -40,30 +48,40 @@ module.exports = function (app) {
     });
 
 
-app.post('/login', async function (req, res) {
-    let userData = req.body;
-    let user = await User.findOne({email: userData.email});
-    if (user) {
+    app.post('/login', async function (req, res) {
+            let userData = req.body;
+            let user = await User.findOne({email: userData.email});
+            if (user) {
 
-        let pw = SHA256(userData.password);
+                let pw = SHA256(userData.password);
 
-        if (user.password === pw.toString()) {
-            console.log("Generation jwt");
-            const token = generateToken(res, userData.email, user._id);
-            res.status(201).send("successfully signed in!");
-            res.status(201).json({user: user});
-        } else {
-            res.status(401).send("user or password wrong!");
+                if (user.password === pw.toString()) {
+                    console.log("Generating jwt");
+                    const token = generateToken(res, userData.email, user._id);
+                    console.log(token)
+
+                    // Update the response to include the token
+                    res.status(201).json({
+                        user: user
+                    });
+                } else {
+                    res.status(401).send("user or password wrong!");
+                }
+
+            } else {
+                res.status(401).send("user does not exists");
+            }
         }
-
-    } else {
-        res.status(401).send("user does not exists");
-    }
-});
+    )
+    ;
 
 
     app.post('/logout', function (req, res) {
-        res.clearCookie('token');
+        res.clearCookie('token', {
+        secure: false, // set to true if your using https
+        httpOnly: true,
+         });
+
         res.status(200).send("logout successful");
     });
-}
+};

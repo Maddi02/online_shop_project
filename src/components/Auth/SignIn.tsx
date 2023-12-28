@@ -4,12 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
 import React, {useState} from "react";
 import {loginUser} from "../../utilits/State/authSlice.ts";
-import Popup from "../../utilits/ErrorMessage.tsx";
+import Popup, {PopupState} from "../../utilits/ErrorMessage.tsx";
 
-interface PopupState {
-    show: boolean;
-    message: string;
-}
+
 
 const SignIn = () => {
     const email = useFormInput('');

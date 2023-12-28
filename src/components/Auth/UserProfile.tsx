@@ -11,9 +11,9 @@ const UserProfile = () => {
 
     const user: User | null = useMemo(() => authState.user, [authState.user]);
 
-    const logout = () => {
+    const logout = async () => {
         console.log("Wanna lock out ")
-        dispatch(logoutUser())
+        await dispatch(logoutUser())
         if (authState.loading) {
             return <div>Loading...</div>;
         }

@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken');
 dotenv.config();
 const verifyToken = async (req, res, next) => {
   const token = req.cookies.token || '';
+  console.log(req.cookies);
   try {
     if (!token) {
-      return res.status(401).json('you need to login')
+      return res.status(401).json('you need to login');
     }
     const decrypt = await jwt.verify(token, process.env.TOKEN_SECRET);
     req.user = {

@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 // Assuming you have Axios installed for HTTP requests
-import axios from 'axios';
 import axiosInstance from "../../api/axios.ts";
+import Popup, {PopupState} from "../../utilits/ErrorMessage.tsx";
+
 
 const AddNewSubCategory = () => {
     const [subCategoryName, setSubCategoryName] = useState('');
- console.log(localStorage.getItem('jwt'), "Hallo")
-    // Function to handle form submission
-    const handleSubmit = async (event) => {
-
+    const [popup, setPopup] = useState<PopupState>({show: false, message: ''});
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         try {
+            console.log(event);
             const response = await axiosInstance.post('/shop/subcategory', {
-                name: event.name,
-
+                name: subCategoryName
+            }, {
+                withCredentials: true
             });
+            setPopup({show: true, message: 'Creation Successful'});
             console.log(response.data);
-            setSubCategoryName('');
-        } catch (error) {
-            console.error(error.response.data);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setPopup({show: true, message: error.message});
+            } else {
+                console.error('An unexpected error occurred');
+            }
         }
     };
+
 
     return (
         <div className="h-screen flex justify-center items-center bg-gray-100 px-6 pl-9">
@@ -55,6 +62,7 @@ const AddNewSubCategory = () => {
                         </button>
                     </div>
                 </form>
+                {popup.show && <Popup message={popup.message}/>}
             </div>
         </div>
     );

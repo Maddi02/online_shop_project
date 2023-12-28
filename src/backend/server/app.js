@@ -9,17 +9,6 @@ const app = express();
 const session = require('express-session');
 
 
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false, // should be false to avoid storing sessions that haven't been modified
-  cookie: {
-    secure: false, // set this to true if you're on https, false if not
-    httpOnly: true, // to prevent client side JS from reading the cookie
-    sameSite: 'lax', // protection against CSRF
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
 
 
 
@@ -41,7 +30,7 @@ app.use(cors({
 let port =3020;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -85,7 +74,7 @@ switch (process.argv[2]){
 }
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`);
 });
 
 

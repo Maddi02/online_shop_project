@@ -45,7 +45,13 @@ export const registerUser = createAsyncThunk<User, {
     'auth/registerUser',
     async (User, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post('/signup', User);
+            const response = await axiosInstance.post('/signup', User, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
             console.log(response.data)
             return response.data.user;
         } catch (error: unknown) {
@@ -64,7 +70,15 @@ export const loginUser = createAsyncThunk<User, { email: string, password: strin
     'auth/loginUser',
     async (credentials, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post('/login', credentials);
+            const response = await axiosInstance.post('/login', credentials, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            const token = response.data.token;
+            console.log(token, "Token");
             return response.data.user;
         } catch (error: unknown) {
             // First, check if it's an AxiosError
@@ -86,7 +100,13 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: CustomErro
     'auth/logoutUser',
     async (_, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post('/logout');
+            const response = await axiosInstance.post('/logout', {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
             console.log(response);
             return response.data.user;
         } catch (error: unknown) {
