@@ -8,7 +8,8 @@ import ArticelCard from "../Articel/ArticelCard.tsx";
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
     const products: Article[] = useSelector((state: RootState) => state.article.articles);
-
+    const searchTerm = useSelector((state: RootState) => state.search);
+    console.log(searchTerm)
     useEffect(() => {
         dispatch(fetchArticles())
     }, [dispatch]);

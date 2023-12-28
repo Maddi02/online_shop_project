@@ -4,6 +4,7 @@ import authReducer from './authSlice.ts';
 import subcategoriesReducer from './subCategorieSlice.ts';
 import categoriesReducer from './categorieSlice.ts';
 import articelsReducer from './productSlice.ts';
+import searchReducer from "./searchSlice.ts";
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         auth: authReducer,
         subcategories: subcategoriesReducer,
         categories: categoriesReducer,
-        article: articelsReducer
+        article: articelsReducer,
+        search: searchReducer
     }
 });
 
