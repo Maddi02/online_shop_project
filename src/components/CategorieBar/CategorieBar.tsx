@@ -15,21 +15,14 @@ const CategorieBar: React.FC = () => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    const handleItemClick = (id: string) => {
+const handleItemClick = (id: string) => {
     setSelected((currentSelected) => {
-        console.log('Current Selected:', currentSelected); // Debugging
-
-        // Check if currentSelected is defined and is an array
-        if (!Array.isArray(currentSelected)) {
-            console.error('currentSelected is not an array:', currentSelected);
-            return [];
-        }
-
-        if (currentSelected.includes(id)) {
-            return currentSelected.filter((el) => el !== id);
-        } else {
-            return [...currentSelected, id];
-        }
+        const isAlreadySelected = currentSelected.includes(id);
+        const newSelected = isAlreadySelected
+            ? currentSelected.filter((el) => el !== id)
+            : [...currentSelected, id];
+        console.log("New selected state:", newSelected);
+        return newSelected;
     });
 };
 
@@ -40,9 +33,9 @@ const CategorieBar: React.FC = () => {
                     {categories.map((category) => (
                         <MenuItem
                             key={category.name}
-                            item={category.name} // Use 'name' property here
+                            item={category.name}
                             onItemClick={() => handleItemClick(category.name)}
-                         selectedItems={selected}/>
+                            selectedItems={selected}/>
                     ))}
                 </ScrollMenu>
             </div>
