@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { MdSearch } from "react-icons/md";
-import { setSearchTerm } from "../../utilits/State/searchSlice";
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {MdSearch} from "react-icons/md";
+import {setSearchTerm} from "../../utilits/State/searchSlice";
 
 const Searchbar = () => {
     const [input, setInput] = useState('');
     const dispatch = useDispatch();
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
-
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("HH", event.target.value)
         dispatch(setSearchTerm(input));
     };
 

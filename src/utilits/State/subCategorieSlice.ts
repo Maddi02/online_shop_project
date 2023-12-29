@@ -3,10 +3,11 @@ import axiosInstance from '../../api/axios';
 import { AxiosError } from 'axios';
 
 export interface Subcategory {
-    _id: string | number | readonly string[] | undefined;
+    _id: string | undefined;
     id: string;
     name: string;
 }
+
 
 interface SubcategoriesState {
     subcategories: Subcategory[];

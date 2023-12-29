@@ -53,7 +53,7 @@ const articlesSlice = createSlice({
             })
             .addCase(fetchArticles.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                 state.error = action.error.message ?? null;
             });
     }
 });
