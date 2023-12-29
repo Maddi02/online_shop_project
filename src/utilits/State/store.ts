@@ -5,6 +5,7 @@ import subcategoriesReducer from './subCategorieSlice.ts';
 import categoriesReducer from './categorieSlice.ts';
 import articelsReducer from './productSlice.ts';
 import searchReducer from "./searchSlice.ts";
+import selectedCategoriesReducer from "./selectedCategoriesSlice.ts"
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
         subcategories: subcategoriesReducer,
         categories: categoriesReducer,
         article: articelsReducer,
-        search: searchReducer
+        search: searchReducer,
+        selectedCategories: selectedCategoriesReducer,
     }
 });
 
