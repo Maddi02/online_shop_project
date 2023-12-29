@@ -37,7 +37,6 @@ export class GeoProvider {
             const data = await response.text()
             return data
         } catch (error) {
-            console.log('Failed to fetch IP;', error)
             throw Error
         }
     }

@@ -3,7 +3,7 @@ import axiosInstance from '../../api/axios';
 import { AxiosError } from 'axios';
 
 export interface Subcategory {
-    _id: string | undefined;
+    _id: string | undefined ;
     id: string;
     name: string;
 }
@@ -28,7 +28,6 @@ export const fetchSubcategories = createAsyncThunk<Subcategory[], void, { reject
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get('/shop/subcategories/');
-            console.log(response)
             return response.data;
         } catch (error: unknown) {
             if (error instanceof AxiosError && error.response) {

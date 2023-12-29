@@ -10,10 +10,10 @@ let articleSchema = new mongoose.Schema({
     rating:{type:Number,required:true},
     shortdescription:{type:String,required:true},
     description:{type:String,required:true},
-    // subcategoryId:{type:mongoose.Schema.Types.ObjectId,required:false}
+    subcategoryId:{type:mongoose.Schema.Types.ObjectId,required:true}
 });
 
-const articleModel = mongoose.model('article',articleSchema);
+const articleModel = mongoose.model('articles',articleSchema);
 
 module.exports = articleModel;
 

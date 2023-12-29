@@ -1,31 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-
-import { Subcategory } from "./subCategorieSlice.ts";
 import axiosInstance from "../../api/axios.ts";
 
-export const fetchCategories = createAsyncThunk(
-    'categories/fetchCategories',
-    async () => {
-        const response = await axiosInstance.get('shop/categories/');
-        return response.data;
-    }
-);
+// Adjusted Category interface
+export interface Category {
+    _id: string;  // Using _id as it seems to be the identifier used in your data
+    name: string;
+    subcategoryIds: string[];  // Array of subcategory IDs
+    // ... other category properties like __v if needed
+}
 
-// Define the state type
-interface CategoriesState {
-    categories: Subcategory[];
+// Define the state type for categories
+export interface CategoriesState {
+    categories: Category[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null | undefined;
-    name: string
 }
 
 const initialState: CategoriesState = {
     categories: [],
     status: 'idle',
-    error: null,
-    name: ''
+    error: null
 };
+
+export const fetchCategories = createAsyncThunk(
+    'categories/fetchCategories',
+    async () => {
+        const response = await axiosInstance.get<Category[]>('shop/categories/');
+        return response.data;
+    }
+);
 
 const categorySlice = createSlice({
     name: 'categories',
@@ -38,9 +41,8 @@ const categorySlice = createSlice({
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.categories = action.payload; // Ensure this matches the type of data returned by the API
-                console.log(action.payload)
-                state.name = action.payload
+                // Assuming the payload is an array of Category objects
+                state.categories = action.payload;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
                 state.status = 'failed';

@@ -12,6 +12,7 @@
   "dependencies": {
     "@mui/styled-engine-sc": "^6.0.0-alpha.9",
     "express-session": "^1.17.3",
+    "mongoose": "^8.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-horizontal-scrolling-menu": "^4.1.1",

@@ -52,7 +52,6 @@ export const registerUser = createAsyncThunk<User, {
                 },
                 withCredentials: true
             });
-            console.log(response.data)
             return response.data.user;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
@@ -78,7 +77,6 @@ export const loginUser = createAsyncThunk<User, { email: string, password: strin
                 withCredentials: true
             });
             const token = response.data.token;
-            console.log(token, "Token");
             return response.data.user;
         } catch (error: unknown) {
             // First, check if it's an AxiosError
@@ -107,7 +105,6 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: CustomErro
                 },
                 withCredentials: true
             });
-            console.log(response);
             return response.data.user;
         } catch (error: unknown) {
             if (error instanceof AxiosError) {

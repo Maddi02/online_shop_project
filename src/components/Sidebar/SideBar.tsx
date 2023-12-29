@@ -14,7 +14,6 @@ const SideBar = () => {
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        console.log(authState.user)
        if(!authState.user){
              navigate('/login');
         }

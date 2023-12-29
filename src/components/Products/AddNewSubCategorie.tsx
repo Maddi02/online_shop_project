@@ -10,14 +10,12 @@ const AddNewSubCategory = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            console.log(event);
-            const response = await axiosInstance.post('/shop/subcategory', {
+            await axiosInstance.post('/shop/subcategory', {
                 name: subCategoryName
             }, {
                 withCredentials: true
             });
             setPopup({show: true, message: 'Creation Successful'});
-            console.log(response.data);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 setPopup({show: true, message: error.message});

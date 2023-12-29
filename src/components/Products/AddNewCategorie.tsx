@@ -16,7 +16,9 @@ const AddNewCategorie = () => {
             dispatch(fetchSubcategories());
         }, [dispatch]);
 
-        const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+
+
+        const handleSubCategrieSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
             const value = event.target.value;
             setSelectedSubcategory(prevSelected => {
                 if (prevSelected.includes(value)) {
@@ -29,18 +31,13 @@ const AddNewCategorie = () => {
 
         const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            console.log("Wann create a new categorie")
-            console.log(selectedSubcategorie)
-            console.log(categorieName)
-            console.log(event)
             await axiosInstance.post('/shop/category', {
                 name: categorieName,
                 subcategoryIds: selectedSubcategorie
             }, {
                 withCredentials: true
             })
-                .then(response => {
-                    console.log('Category created:', response.data);
+                .then(() => {
                      setPopup({show: true, message: 'Creation Successful'});
                 })
                 .catch(error => {
@@ -78,11 +75,11 @@ const AddNewCategorie = () => {
                             Select your Subcategie
                         </label>
 
-                        <select className="form-select bg-gray-200 mb-2" value={selectedSubcategorie}
-                                onChange={handleSelectChange} multiple>
-                            {subcategories.map(subcategory => (
-                                <option key={subcategory.id} value={subcategory._id}>
-                                    {subcategory.name}
+                        <select multiple className="form-select bg-gray-200 mb-2" value={selectedSubcategorie}
+                                onChange={handleSubCategrieSelectChange}>
+                            {subcategories.map(category => (
+                                <option key={category.id} value={category._id} >
+                                    {category.name}
                                 </option>
                             ))}
                         </select>

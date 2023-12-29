@@ -1,34 +1,40 @@
-// selectedCategoriesSlice.js
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "./store.ts";
 
 interface SelectedCategoriesState {
-    selectedCategories: string[]; // Array of category IDs
+    selectedCategories: {
+        [categoryId: string]: string[]; // Maps category IDs to an array of subcategory IDs
+    };
 }
 
 const initialState: SelectedCategoriesState = {
-    selectedCategories: [],
+    selectedCategories: {},
 };
 
-export const selectedCategoriesSlice = createSlice({
+const selectedCategoriesSlice = createSlice({
     name: 'selectedCategories',
     initialState,
     reducers: {
-        // ...
-        toggleCategory: (state, action: PayloadAction<string>) => {
-    const categoryId = action.payload;
-    const index = state.selectedCategories.indexOf(categoryId);
-    if (index >= 0) {
-        state.selectedCategories.splice(index, 1); // Remove the category if it's already selected
-    } else {
-        state.selectedCategories.push(categoryId); // Add the category if it's not selected
-    }
-},
-
+        toggleCategory: (state, action: PayloadAction<{ categoryId: string, subcategoryIds: string[] }>) => {
+            const { categoryId, subcategoryIds } = action.payload;
+            if (state.selectedCategories[categoryId]) {
+                // If the category is already selected, remove it
+                delete state.selectedCategories[categoryId];
+            } else {
+                // If the category is not selected, add it along with its subcategory IDs
+                state.selectedCategories[categoryId] = subcategoryIds;
+            }
+        },
     },
 });
 
-export const {toggleCategory} = selectedCategoriesSlice.actions;
+// Export the reducer as default
 export default selectedCategoriesSlice.reducer;
-export const selectSelectedCategories = (state: RootState) => state.selectedCategories.selectedCategories;
 
+// Export actions as named exports
+export const { toggleCategory } = selectedCategoriesSlice.actions;
+
+// Selector
+export const selectSelectedCategories = (state: RootState): { [categoryId: string]: string[] } => {
+    return state.selectedCategories.selectedCategories;
+};

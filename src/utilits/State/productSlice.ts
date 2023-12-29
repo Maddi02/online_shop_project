@@ -12,6 +12,7 @@ export interface Article {
     rating: number;
     shortdescription: string;
     description: string;
+    subcategoryId: string
     // Add subcategoryId if needed
 }
 
@@ -31,6 +32,7 @@ export const fetchArticles = createAsyncThunk(
     'articles/fetchArticles',
     async () => {
         const response = await axiosInstance.get('/shop/articles');
+        console.log(response)
         return response.data;
     }
 );
@@ -48,6 +50,7 @@ const articlesSlice = createSlice({
                 state.status = 'succeeded';
                 // Add fetched articles to the state
                 state.articles = action.payload;
+                console.log(state.articles)
             })
             .addCase(fetchArticles.rejected, (state, action) => {
                 state.status = 'failed';
