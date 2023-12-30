@@ -53,7 +53,7 @@ const Home = () => {
 
     const handleOnItemClick = (article: Article) => {
         console.log("On Item clicked", article);
-        setSelectedArticle(article); // Set the selected article
+        setSelectedArticle(article);
     };
 
 

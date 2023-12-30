@@ -1,11 +1,16 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../utilits/State/store';
-import {removeFromCart, updateQuantity} from '../../utilits/State/cardSlice.ts'; // Import the action for updating quantity
+import {removeFromCart, updateQuantity} from '../../utilits/State/cardSlice.ts';
+import {BsArrowLeft} from "react-icons/bs";
+import {useNavigate} from "react-router-dom"; // Import the action for updating quantity
 
 const ShoppingCart = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector((state: RootState) => state.card.items);
-
+    const navigate = useNavigate()
+    const handleHomeNavigation = () => {
+        navigate("/home")
+    }
     const handleQuantityChange = (itemId: string, newQuantity: number) => {
         dispatch(updateQuantity({_id: itemId, quantity: newQuantity}));
     };
@@ -18,8 +23,12 @@ const ShoppingCart = () => {
 
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+            <button
+                onClick={handleHomeNavigation}
+                className="text-white font-bold py-2 px-4 rounded">
+                <BsArrowLeft className="text-black">Back</BsArrowLeft>
+            </button>
             <h2 className="text-2xl font-semibold text-center mb-6">Shopping Cart</h2>
-
             {cartItems.length === 0 ? (
                 <div className="text-center text-gray-500">Your cart is empty.</div>
             ) : (
