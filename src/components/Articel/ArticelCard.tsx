@@ -1,10 +1,11 @@
 import {Article} from "../../utilits/State/productSlice.ts";
+import React from "react";
 
 interface ArticleProps {
     article: Article;
 }
 
-const ArticleCard: React.FC<ArticleProps> = ({article}) => {
+const ArticleCard: React.FC<ArticleProps & { onAddToCart: (article: Article) => void }> = ({ article, onAddToCart }) => {
     return (
         <div className="bg-white p-4 flex border border-gray-200 rounded-xl shadow-md overflow-hidden">
             <div className="w-40 h-40 flex-shrink-0">
@@ -26,8 +27,9 @@ const ArticleCard: React.FC<ArticleProps> = ({article}) => {
                 </div>
                 <div className="flex mt-4">
                     <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Add
-                        to Cart
+                        onClick={() => onAddToCart(article)}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Add to Cart
                     </button>
                 </div>
             </div>

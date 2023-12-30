@@ -1,13 +1,13 @@
-import  { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchTerm } from '../../utilits/State/searchSlice';
-import { selectSelectedCategories } from '../../utilits/State/selectedCategoriesSlice';
-import { selectSelectedSubcategories } from '../../utilits/State/selectedSubcategoriesSlice';
-import { AppDispatch, RootState } from "../../utilits/State/store";
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectSearchTerm} from '../../utilits/State/searchSlice';
+import {selectSelectedCategories} from '../../utilits/State/selectedCategoriesSlice';
+import {selectSelectedSubcategories} from '../../utilits/State/selectedSubcategoriesSlice';
+import {AppDispatch, RootState} from "../../utilits/State/store";
 import ArticleCard from "../Articel/ArticelCard";
-import { fetchArticles } from "../../utilits/State/productSlice";
-import { fetchSubcategories } from "../../utilits/State/subCategorieSlice.ts";
-import { fetchCategories } from "../../utilits/State/categorieSlice.ts";
+import {Article, fetchArticles} from "../../utilits/State/productSlice";
+import {fetchSubcategories} from "../../utilits/State/subCategorieSlice.ts";
+import {fetchCategories} from "../../utilits/State/categorieSlice.ts";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -23,22 +23,25 @@ const Home = () => {
     }, [dispatch]);
 
     // This should be a .filter, not .map, to create a filtered list of products
-  const filteredProducts = products.filter((product) => {
+    const filteredProducts = products.filter((product) => {
         const matchesSearchTerm = !searchTerm.trim() || product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
-       const isInSelectedCategory = !Object.keys(selectedCategories).length || Object.keys(selectedCategories).includes(product.categoryId);
+        const isInSelectedCategory = !Object.keys(selectedCategories).length || Object.keys(selectedCategories).includes(product.categoryId);
         const isInSelectedSubcategory = !selectedSubCategories.length || selectedSubCategories.includes(product.subcategoryId);
 
         // The product must match the search term, category, and subcategory to be included
         return matchesSearchTerm && isInSelectedCategory && isInSelectedSubcategory;
     });
 
-    // Log the filtered products to see what's being included
+    const handleAddToCart = (article: Article) => {
+        console.log("Adding to cart", article);
+    };
+
     console.log('Filtered Products:', filteredProducts);
 
     return (
         <div>
             {filteredProducts.map((product) => (
-                <ArticleCard key={product._id} article={product} />
+                <ArticleCard article={product} onAddToCart={handleAddToCart}/>
             ))}
         </div>
     );

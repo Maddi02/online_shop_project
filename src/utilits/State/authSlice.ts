@@ -76,7 +76,6 @@ export const loginUser = createAsyncThunk<User, { email: string, password: strin
                 },
                 withCredentials: true
             });
-            const token = response.data.token;
             return response.data.user;
         } catch (error: unknown) {
             // First, check if it's an AxiosError
