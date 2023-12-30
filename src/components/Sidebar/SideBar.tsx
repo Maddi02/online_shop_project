@@ -13,6 +13,7 @@ const SideBar = () => {
     const authState = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
     const cardItems = useSelector((state: RootState) => state.card)
+    const orderItems = useSelector((state: RootState) => state.order)
 
     const handleLoginClick = () => {
        if(!authState.user){

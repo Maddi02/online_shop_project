@@ -89,7 +89,9 @@ module.exports = function (app) {
 app.post('/shop/order', async (req, res) => {
     try {
         const { userId, articles, orderNr, orderDate } = req.body;
-        console.log(userId.userId, "UserId");
+        console.log(userId);
+        console.log(req.body);
+
         // Check if userId is a string and has a length of 24 characters
 
 
@@ -97,7 +99,7 @@ app.post('/shop/order', async (req, res) => {
         const mappedArticles = articles.map(a => {
             if (typeof a.articleId !== 'string' || a.articleId.length !== 24) {
                 console.log("Invalid article ID");
-              //  throw new Error("Invalid article ID");
+                throw new Error("Invalid article ID");
             }
             return {
                 articleId: Types.ObjectId(a.articleId),
@@ -106,16 +108,19 @@ app.post('/shop/order', async (req, res) => {
             };
         });
 
-                if (typeof userId.userId !== 'string' || userId.userId.length !== 24) {
-            console.log("Invalid user ID");
-            //return res.status(400).send("Invalid user ID");
-        }
+        //         if (typeof user.userId !== 'string' || user.userId.length !== 24) {
+        //     console.log("Invalid user ID");
+        //     console.log(user.userId, "Invalid user ID");
+        //     console.log(user.userId.length, "Invalid user ID");
+        //
+        //      throw new Error("Invalid article ID");
+        // }
 
         // Create a new order
         const newOrder = new Order({
             orderNr,
             articles: mappedArticles,
-            userId: Types.ObjectId(userId.userId),
+            userId: Types.ObjectId(userId._id),
             orderDate
         });
 

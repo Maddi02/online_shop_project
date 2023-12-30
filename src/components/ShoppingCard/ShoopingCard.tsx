@@ -15,9 +15,7 @@ const ShoppingCart = () => {
 
     const handelCheckout = () => {
         if (user){
-            console.log(cartItems)
-            console.log(user)
-            dispatch(createOrder(user._id)).then(() => {
+            dispatch(createOrder(user)).then(() => {
                 dispatch(clearCart())
 
             });
