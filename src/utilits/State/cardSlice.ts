@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axiosInstance from "../../api/axios.ts";
 import {RootState} from "./store.ts";
+import {User} from "./authSlice.ts";
 
 export interface CartItem {
     _id: string;
@@ -31,7 +32,7 @@ const initialState: CartState = {
 
 export const createOrder = createAsyncThunk(
     'cart/createOrder',
-    async (userId: string, {getState}) => {
+    async (userId: User, {getState}) => {
         const state = getState() as RootState;
         const cartItems = state.card.items;
 

@@ -7,13 +7,20 @@ import Searchbar from "./Searchbar.tsx";
 import CategorieBar from "../CategorieBar/CategorieBar.tsx";
 import LocationComponent from "../Location/LocationComponent.tsx";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {RootState} from "../../utilits/State/store.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {fetchOrders} from "../../utilits/State/orderSlice.ts";
+import {AppDispatch, RootState} from "../../utilits/State/store.ts";
 const SideBar = () => {
     const authState = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
     const cardItems = useSelector((state: RootState) => state.card)
     const orderItems = useSelector((state: RootState) => state.order)
+    const dispatch = useDispatch<AppDispatch>();
+
+useEffect(() => {
+    dispatch(fetchOrders());
+}, [dispatch]);
 
     const handleLoginClick = () => {
        if(!authState.user){
@@ -36,6 +43,10 @@ const SideBar = () => {
     const handleShoppingCartClick = () => {
         navigate('/shoppingCard');
     };
+
+    useEffect(() => {
+        console.log(orderItems, "Orders")
+    }, [orderItems]);
 
 
 
