@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectSearchTerm} from '../../utilits/State/searchSlice';
 import {selectSelectedCategories} from '../../utilits/State/selectedCategoriesSlice';
@@ -8,13 +8,16 @@ import ArticleCard from "../Articel/ArticelCard";
 import {Article, fetchArticles} from "../../utilits/State/productSlice";
 import {fetchSubcategories} from "../../utilits/State/subCategorieSlice.ts";
 import {fetchCategories} from "../../utilits/State/categorieSlice.ts";
+import ArticelInfo from "../Articel/ArticelInfo.tsx";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const products = useSelector((state: RootState) => state.article.articles); // Assuming articles is the correct field
+    const products = useSelector((state: RootState) => state.article.articles);
     const searchTerm = useSelector(selectSearchTerm);
-    const selectedCategories = useSelector(selectSelectedCategories); // Assuming this is an array of selected category IDs
+    const selectedCategories = useSelector(selectSelectedCategories);
     const selectedSubCategories = useSelector(selectSelectedSubcategories);
+    const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+
 
     useEffect(() => {
         dispatch(fetchArticles());
@@ -22,26 +25,41 @@ const Home = () => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    // This should be a .filter, not .map, to create a filtered list of products
     const filteredProducts = products.filter((product) => {
         const matchesSearchTerm = !searchTerm.trim() || product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
         const isInSelectedCategory = !Object.keys(selectedCategories).length || Object.keys(selectedCategories).includes(product.categoryId);
         const isInSelectedSubcategory = !selectedSubCategories.length || selectedSubCategories.includes(product.subcategoryId);
-
-        // The product must match the search term, category, and subcategory to be included
         return matchesSearchTerm && isInSelectedCategory && isInSelectedSubcategory;
     });
 
     const handleAddToCart = (article: Article) => {
         console.log("Adding to cart", article);
     };
+    const handleOnBack = () => {
+        setSelectedArticle(null); // Clear the selected article
+    };
+
+    if (selectedArticle) {
+        return <ArticelInfo article={selectedArticle} onAddToCart={handleAddToCart} onBack={handleOnBack}/>;
+    }
+
+    const handleOnItemClick = (article: Article) => {
+        console.log("On Item clicked", article);
+        setSelectedArticle(article); // Set the selected article
+    };
+
 
     console.log('Filtered Products:', filteredProducts);
 
     return (
         <div>
             {filteredProducts.map((product) => (
-                <ArticleCard article={product} onAddToCart={handleAddToCart}/>
+                <ArticleCard
+                    key={product._id} // Assuming each product has a unique _id
+                    article={product}
+                    onAddToCart={handleAddToCart}
+                    onItemClicked={() => handleOnItemClick(product)}
+                />
             ))}
         </div>
     );
