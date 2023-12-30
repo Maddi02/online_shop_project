@@ -9,6 +9,7 @@ import {Article, fetchArticles} from "../../utilits/State/productSlice";
 import {fetchSubcategories} from "../../utilits/State/subCategorieSlice.ts";
 import {fetchCategories} from "../../utilits/State/categorieSlice.ts";
 import ArticelInfo from "../Articel/ArticelInfo.tsx";
+import {addToCart} from "../../utilits/State/cardSlice.ts";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -32,11 +33,18 @@ const Home = () => {
         return matchesSearchTerm && isInSelectedCategory && isInSelectedSubcategory;
     });
 
-    const handleAddToCart = (article: Article) => {
-        console.log("Adding to cart", article);
+    const handleAddToCart = (article: Article, quantity: number) => {
+        console.log("Adding to cart", article, quantity);
+
+        const cartItem = {
+            ...article,
+            quantity: quantity,
+        };
+
+        dispatch(addToCart(cartItem));
     };
     const handleOnBack = () => {
-        setSelectedArticle(null); // Clear the selected article
+        setSelectedArticle(null);
     };
 
     if (selectedArticle) {

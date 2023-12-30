@@ -12,6 +12,7 @@ import {RootState} from "../../utilits/State/store.ts";
 const SideBar = () => {
     const authState = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
+    const cardItems = useSelector((state: RootState) => state.card)
 
     const handleLoginClick = () => {
        if(!authState.user){
@@ -53,7 +54,7 @@ const SideBar = () => {
 
                         <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"} onClick={handleLoginClick} content={authState.user?.lastname}/>
                         <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"} onClick={handleOrdersClick} content="0"/>
-                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"} onClick={handleShoppingCartClick} content="0"/>
+                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"} onClick={handleShoppingCartClick} content={cardItems.items.length}/>
                     </div>
                 </div>
                 <div className="bg-category w-full">

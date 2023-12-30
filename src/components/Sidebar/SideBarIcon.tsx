@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 type Props = {
   icon: ReactElement;
   text: string;
-  content?: string;
+  content?: string |number;
   onClick?: () => void;
   active?: boolean;
 };

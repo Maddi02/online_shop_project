@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
 export interface CartItem {
     _id: string;
     name: string;
@@ -38,8 +39,11 @@ const cartSlice = createSlice({
                 item.quantity = action.payload.quantity;
             }
         },
+        removeFromCart: (state, action: PayloadAction<string>) => {
+            state.items = state.items.filter(item => item._id !== action.payload);
+        },
     },
 });
 
-export const { addToCart, updateQuantity } = cartSlice.actions;
+export const {addToCart, updateQuantity, removeFromCart} = cartSlice.actions;
 export default cartSlice.reducer;

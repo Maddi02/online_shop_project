@@ -7,6 +7,7 @@ import articelsReducer from './productSlice.ts';
 import searchReducer from "./searchSlice.ts";
 import selectedCategoriesReducer from "./selectedCategoriesSlice.ts"
 import selectedSubCategoriesReducer from "./selectedSubcategoriesSlice.ts"
+import cardReducer from "./cardSlice.ts"
 
 export const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
         article: articelsReducer,
         search: searchReducer,
         selectedCategories: selectedCategoriesReducer,
-        selectedSubcategories:selectedSubCategoriesReducer
+        selectedSubcategories:selectedSubCategoriesReducer,
+        card: cardReducer
     }
 });
 
