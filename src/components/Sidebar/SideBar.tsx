@@ -8,27 +8,29 @@ import CategorieBar from "../CategorieBar/CategorieBar.tsx";
 import LocationComponent from "../Location/LocationComponent.tsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {fetchOrders} from "../../utilits/State/orderSlice.ts";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
+
 const SideBar = () => {
     const authState = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
     const cardItems = useSelector((state: RootState) => state.card)
     const orderItems = useSelector((state: RootState) => state.order)
+    const user = useSelector((state: RootState) => state.auth.user)
     const dispatch = useDispatch<AppDispatch>();
+    const [userOrderCount, setUserOrderCount] = useState<number>(0)
 
-useEffect(() => {
-    dispatch(fetchOrders());
-}, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchOrders());
+    }, [dispatch, user]);
 
     const handleLoginClick = () => {
-       if(!authState.user){
-             navigate('/login');
+        if (!authState.user) {
+            navigate('/login');
+        } else {
+            navigate("/profile")
         }
-       else{
-           navigate("/profile")
-       }
 
     };
 
@@ -45,9 +47,9 @@ useEffect(() => {
     };
 
     useEffect(() => {
-        console.log(orderItems, "Orders")
-    }, [orderItems]);
-
+        const filteredItem = orderItems.orders.filter(order => order.userId === user?._id)
+        setUserOrderCount(filteredItem.length)
+    }, [orderItems, user]);
 
 
     return (
@@ -65,9 +67,12 @@ useEffect(() => {
                     </div>
                     <div className="flex flex-row justify-around w-full md:w-auto">
 
-                        <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"} onClick={handleLoginClick} content={authState.user?.lastname}/>
-                        <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"} onClick={handleOrdersClick} content="0"/>
-                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"} onClick={handleShoppingCartClick} content={cardItems.items.length}/>
+                        <SideBarIcon icon={<BsFillPersonFill size="20"/>} text={"Login"} onClick={handleLoginClick}
+                                     content={authState.user?.lastname}/>
+                        <SideBarIcon icon={<LuUndo2 size="20"/>} text={"Orders"} onClick={handleOrdersClick}
+                                     content={userOrderCount}/>
+                        <SideBarIcon icon={<LuShoppingCart size="20"/>} text={"Shopping ShoopingCard"}
+                                     onClick={handleShoppingCartClick} content={cardItems.items.length}/>
                     </div>
                 </div>
                 <div className="bg-category w-full">

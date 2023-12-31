@@ -13,7 +13,6 @@ export interface Article {
     shortdescription: string;
     description: string;
     subcategoryId: string
-    // Add subcategoryId if needed
 }
 
 interface ArticlesState {

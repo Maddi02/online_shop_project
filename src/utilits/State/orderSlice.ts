@@ -6,8 +6,8 @@ export interface Order {
     _id: string;
     articles: [Article];
     orderDate: string;
-    orderNumber: number;
-    user_id: string
+    orderNr: number;
+    userId: string
 }
 
 interface OrderState {
