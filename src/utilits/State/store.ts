@@ -22,7 +22,8 @@ export const store = configureStore({
         selectedCategories: selectedCategoriesReducer,
         selectedSubcategories:selectedSubCategoriesReducer,
         card: cardReducer,
-        order: orderReducer
+        order: orderReducer,
+
     }
 });
 

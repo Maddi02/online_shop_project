@@ -1,4 +1,4 @@
-// features/searchSlice.js
+
 import { createSlice } from '@reduxjs/toolkit';
 import {RootState} from "./store.ts";
 

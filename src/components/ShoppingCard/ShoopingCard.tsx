@@ -2,28 +2,43 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../utilits/State/store';
 import {clearCart, createOrder, removeFromCart, updateQuantity} from '../../utilits/State/cardSlice.ts';
 import {BsArrowLeft} from "react-icons/bs";
-import {useNavigate} from "react-router-dom"; // Import the action for updating quantity
+import {useNavigate} from "react-router-dom";
+import PayPal from "../PayPal/PayPal.tsx";
+import {useState} from "react";
+import {PayPalScriptProvider} from "@paypal/react-paypal-js";
+import PayPalPopUp from "../PayPal/PayPalPopUp.tsx";
+
 
 const ShoppingCart = () => {
     const dispatch = useDispatch<AppDispatch>();
     const cartItems = useSelector((state: RootState) => state.card.items);
     const user = useSelector((state: RootState) => state.auth.user);
     const navigate = useNavigate()
+    const [showPayPal, setShowPayPal] = useState<boolean>(false)
     const handleHomeNavigation = () => {
         navigate("/home")
     }
 
+
     const handelCheckout = () => {
-        if (user){
+        if (user) {
             dispatch(createOrder(user)).then(() => {
                 dispatch(clearCart())
-
-            });
-             navigate("/home")
-        }else {
-            navigate("/login")
+            })
+            navigate("/home")
+        } else {
+            navigate("/login");
         }
+    };
+
+    const showPopUp = () => {
+        setShowPayPal(true)
     }
+
+    const handleClosePayPal = () => {
+        setShowPayPal(false);
+    };
+
     const handleQuantityChange = (itemId: string, newQuantity: number) => {
         dispatch(updateQuantity({_id: itemId, quantity: newQuantity}));
     };
@@ -32,12 +47,27 @@ const ShoppingCart = () => {
         dispatch(removeFromCart(itemId));
     };
 
-     const totalSum = Array.isArray(cartItems)
+    const paypalOptions = {
+        clientId: "AdRrJh9y0GuNWXX40TJall6_YKoozcvF1z5Ic3WMGwFoxvqMUlfbbbbGCkvK8nOSz4recs_WlwFFQ3xT",
+        components: "buttons",
+        currency: "EUR"
+    };
+
+
+    const totalSum = Array.isArray(cartItems)
         ? cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
         : 0;
 
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+            <div>showPayPal: {showPayPal.toString()}</div>
+            {/* Debugging log */}
+            <PayPalPopUp show={showPayPal} onClose={handleClosePayPal}>
+                <div>Hallo</div>
+                <PayPalScriptProvider options={paypalOptions}>
+                    <PayPal totalPrice={totalSum} onPaymentSuccess={handelCheckout}/>
+                </PayPalScriptProvider>
+            </PayPalPopUp>
             <button
                 onClick={handleHomeNavigation}
                 className="text-white font-bold py-2 px-4 rounded">
@@ -86,7 +116,9 @@ const ShoppingCart = () => {
                 <div className="mt-6">
                     <div className="text-lg font-bold text-right mb-4">Total: €{totalSum.toFixed(2)}</div>
                     <div className="text-right">
-                        <button className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600" onClick={handelCheckout}>Checkout</button>
+                        <button className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600"
+                                onClick={showPopUp}>Checkout
+                        </button>
                     </div>
                 </div>
             )}
