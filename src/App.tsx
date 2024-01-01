@@ -12,9 +12,11 @@ import {RootState} from "./utilits/State/store.ts";
 
 export default function App() {
   const user = useSelector((state: RootState) => state.auth.user);
-  const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
+  const adminEmail = import.meta.env.VITE_REACT_APP_ADMIN_EMAIL;
+
 
   console.log(user?.email);
+  console.log(adminEmail);
 
   return (
     <Router>
