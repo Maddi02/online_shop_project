@@ -24,7 +24,7 @@ const ShoppingCart = () => {
         if (user) {
             dispatch(createOrder(user)).then(() => {
                 dispatch(clearCart())
-            })
+            }).then(handleHomeNavigation)
         }
     };
 
@@ -79,7 +79,7 @@ const ShoppingCart = () => {
             ) : (
 
                 <ul>
-                    {cartItems.map((item) => (
+                    {Array.isArray(cartItems) && cartItems.map((item) => (
                         <li key={item._id} className="flex items-center justify-between border-b border-gray-200 py-4">
                             <div className="flex items-center">
                                 <img src={item.href} alt={item.name} className="h-20 w-20 object-cover rounded mr-4"/>

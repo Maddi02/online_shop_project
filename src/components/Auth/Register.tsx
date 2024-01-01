@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import FormInput, {useFormInput} from "./FormInput.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
-import {registerUser} from "../../utilits/State/authSlice.js";
+import {loginUser, registerUser} from "../../utilits/State/authSlice.js";
 import Popup from "../../utilits/ErrorMessage.tsx";
 import React, {useState} from "react";
 
@@ -46,11 +46,17 @@ const Register = () => {
                 country: country.value,
                 phone: phone.value,
                 role: 'USER'
-            }))
-
+            })).then(() => {
+                dispatch(loginUser({
+                    email: email.value,
+                    password: password.value
+                }));
+            });
         };
 
+
         React.useEffect(() => {
+            console.log(authState.user)
             if (authState.error) {
                 setPopup({show: true, message: 'Registration failed: ' + authState.error});
             } else if (authState.user) {
@@ -58,7 +64,6 @@ const Register = () => {
                 handleHomeNavigation()
             }
 
-            // Hide popup after a delay
             const timer = setTimeout(() => setPopup({show: false, message: ''}), 3000);
 
             return () => clearTimeout(timer);

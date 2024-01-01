@@ -21,7 +21,6 @@ interface CustomError {
     message: string;
 }
 
-// Initial state type
 interface AuthState {
     user: User | null;
     loading: boolean;
