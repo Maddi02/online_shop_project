@@ -25,14 +25,15 @@ const ShoppingCart = () => {
             dispatch(createOrder(user)).then(() => {
                 dispatch(clearCart())
             })
-            navigate("/home")
-        } else {
-            navigate("/login");
         }
     };
 
     const showPopUp = () => {
-        setShowPayPal(true)
+        if (user) {
+            setShowPayPal(true)
+        } else {
+            navigate("/login");
+        }
     }
 
     const handleClosePayPal = () => {
