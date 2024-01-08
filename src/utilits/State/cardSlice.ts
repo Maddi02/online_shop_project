@@ -36,6 +36,20 @@ export const createOrder = createAsyncThunk(
     async (userId: User, {getState}) => {
         const state = getState() as RootState;
         const cartItems = state.card.items;
+        cartItems.map(async (a) => {
+            const response = await axiosInstance.patch(`/shop/article/${a._id}/quantity`, {
+                newQuantity: a.quantity
+            }, {
+                withCredentials: true,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            console.log('Quantity updated successfully:', response.data);
+        });
+
 
         const order = {
             orderNr: Math.floor(Math.random() * 1000000),
@@ -48,15 +62,15 @@ export const createOrder = createAsyncThunk(
             orderDate: new Date().toISOString()
         };
 
-            const response = await axiosInstance.post('/shop/order/', order, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                withCredentials: true
-            });
-            console.log(response.data)
-            return response.data;
+        const response = await axiosInstance.post('/shop/order/', order, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            withCredentials: true
+        });
+        console.log(response.data)
+        return response.data;
     }
 );
 
@@ -84,7 +98,7 @@ const cartSlice = createSlice({
             state.items = state.items.filter(item => item._id !== action.payload);
         },
         clearCart: (state) => {
-        state.items = [];
+            state.items = [];
         },
     },
     extraReducers: (builder) => {

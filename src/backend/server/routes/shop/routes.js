@@ -301,5 +301,31 @@ app.post('/shop/order', async (req, res) => {
         }
     });
 
+    app.patch('/shop/article/:articleId/:quantity', verifyToken, async function (req, res) {
+    try {
+        const articleId = req.params.articleId;
+        console.log("REQEST: ", req.body);
+        const { newQuantity } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(articleId)) {
+            return res.status(400).send({ message: "Invalid article ID" });
+        }
+
+        const article = await Article.findById(articleId);
+        if (!article) {
+            return res.status(404).send({ message: "Article not found" });
+        }
+
+        article.quantity = article.quantity - newQuantity;
+        await article.save();
+
+        res.status(200).send({ message: "Quantity updated successfully", article });
+    } catch (error) {
+        console.error("Error updating article quantity:", error);
+        res.status(500).send({ message: "Server error" });
+    }
+});
+
+
 
 };
