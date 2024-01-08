@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from "../../api/axios.ts";
 export interface Article {
     _id: string;
+    articleId: string;
     name: string;
     price: number;
     categoryId: string;

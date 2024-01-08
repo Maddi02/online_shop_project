@@ -1,5 +1,5 @@
 import {Order} from "../../utilits/State/orderSlice.ts";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
 import {Article, fetchArticles} from "../../utilits/State/productSlice.ts";
@@ -13,35 +13,37 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
     const dispatch = useDispatch<AppDispatch>();
     const articles = useSelector((state: RootState) => state.article.articles);
     const [filteredProducts, setFilteredProducts] = useState<Article[]>([])
+    const [endProducts, setEndProducts] = useState<Article[]>([])
     const [total, setTotal] = useState(0);
+
 
     useEffect(() => {
         const sum = filteredProducts.reduce((acc, article) => acc + article.price * (article.quantity || 1), 0);
         setTotal(sum);
     }, [filteredProducts]);
+
     useEffect(() => {
         dispatch(fetchArticles());
     }, [dispatch]);
 
+    const newFilteredProducts = useMemo(() => {
+        return currentOrder.order.articles.filter(article =>
+            currentOrder.order.articles.some(articleId => article._id === articleId._id)
+        );
+    }, [currentOrder.order.articles]);
+
+    const endProduct = useMemo(() => {
+        return articles.filter(article =>
+            newFilteredProducts.some(purchase => purchase.articleId === article._id)
+        );
+    }, [articles, newFilteredProducts]);
+
     useEffect(() => {
-        console.log("Current Order Articles:", currentOrder.order.articles);
-        console.log("All Articles:", articles);
-        console.log("All Articles:",  currentOrder.order._id);
-        console.log("All Articles:",  currentOrder.order.articles);
-const newFilteredProducts = currentOrder.order.articles.filter(article => {
-    const isArticleInOrder = currentOrder.order.articles.some(articleId => {
-        console.log(`Comparing article ID: ${article._id} with order article ID: ${articleId._id}`);
-        return article._id === articleId._id;
-    });
+        setFilteredProducts(newFilteredProducts)
+        setEndProducts(endProduct)
+    }, [endProduct, newFilteredProducts]);
 
-    console.log(`Article with ID: ${article._id} is in the order: ${isArticleInOrder}`);
-    return isArticleInOrder;
-});
-
-        console.log("Filtered Products:", newFilteredProducts);
-        setFilteredProducts(newFilteredProducts);
-    }, [articles, currentOrder.order.articles]);
-
+    console.log(endProduct)
 
     console.log(filteredProducts, "Filtered")
     return (
@@ -51,7 +53,7 @@ const newFilteredProducts = currentOrder.order.articles.filter(article => {
                 <h2 className="text-xl font-semibold">{`Order #${currentOrder.order.orderNr}`}</h2>
                 <p className="text-gray-500">{new Date(currentOrder.order.orderDate).toLocaleDateString()}</p>
                 <ul>
-                    {filteredProducts.map((article) => (
+                    {endProducts.map((article) => (
                         <li key={article._id} className="flex items-center mb-4">
                             <img src={article.href} alt={article.name}
                                  style={{width: '50px', height: '50px', marginRight: '10px'}}/>

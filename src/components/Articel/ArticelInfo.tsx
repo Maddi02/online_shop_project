@@ -25,7 +25,7 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
                     <div className="text-gray-700 text-base mb-2">{article.description}</div>
                     <div className="text-gray-600 text-sm mb-2">{article.shortdescription}</div>
                     <div className="text-gray-600 mb-2">Quantity: {article.quantity}</div>
-                    <div className="text-green-600 font-bold mb-2">Price: ${article.price}</div>
+                    <div className="text-green-600 font-bold mb-2">Price: €{article.price}</div>
                     <div className="text-yellow-500 mb-2">Rating: {article.rating} / 5</div>
                 </div>
             </div>
