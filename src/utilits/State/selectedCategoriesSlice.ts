@@ -28,13 +28,8 @@ const selectedCategoriesSlice = createSlice({
     },
 });
 
-// Export the reducer as default
 export default selectedCategoriesSlice.reducer;
-
-// Export actions as named exports
 export const { toggleCategory } = selectedCategoriesSlice.actions;
-
-// Selector
 export const selectSelectedCategories = (state: RootState): { [categoryId: string]: string[] } => {
     return state.selectedCategories.selectedCategories;
 };

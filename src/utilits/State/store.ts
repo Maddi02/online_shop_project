@@ -10,7 +10,6 @@ import selectedSubCategoriesReducer from "./selectedSubcategoriesSlice.ts"
 import cardReducer from "./cardSlice.ts"
 import orderReducer from "./orderSlice.ts"
 
-
 export const store = configureStore({
     reducer: {
         location: locationReducer,

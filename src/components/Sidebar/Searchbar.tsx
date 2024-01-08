@@ -27,8 +27,8 @@ const Searchbar = () => {
                     <input
                         type="search"
                         id="search"
-                        value={input} // Controlled component
-                        onChange={handleInputChange} // Update local state on change
+                        value={input}
+                        onChange={handleInputChange}
                         className="block w-full pl-10 pr-20 text-sm border-none rounded-l-lg focus:ring-0 text-gray-600"
                         placeholder="Search your favorite product"
                     />

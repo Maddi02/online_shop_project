@@ -85,7 +85,7 @@ export function SidebarItem({icon, text, onClick}: SidebarItemProps) {
     const {expanded, setExpanded} = sidebarContext;
     const handleClick = () => {
         if (onClick) onClick();
-        setExpanded(false); // Collapse the sidebar when an item is clicked
+        setExpanded(false);
     };
     return (
         <li onClick={handleClick}

@@ -36,8 +36,6 @@ const SignIn = () => {
             console.log("Hallo")
             handleHomeNavigation()
         }
-
-        // Hide popup after a delay
         const timer = setTimeout(() => setPopup({show: false, message: ''}), 3000);
 
         return () => clearTimeout(timer);

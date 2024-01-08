@@ -1,9 +1,7 @@
-//Import the mongoose module
 const mongoose = require('mongoose');
 
 
 function initDatabaseConnection (database){
-    //Set up default mongoose connection
     const mongoDB = `mongodb://127.0.0.1:27017/${database}`;
     mongoose.connect(mongoDB, {
         useNewUrlParser: true,

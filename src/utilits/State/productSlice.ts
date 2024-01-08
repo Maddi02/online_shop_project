@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from "../../api/axios.ts";
-
-// Define a TypeScript type for Article based on your Mongoose schema
 export interface Article {
     _id: string;
     name: string;

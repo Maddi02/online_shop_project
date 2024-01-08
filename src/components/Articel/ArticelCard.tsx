@@ -43,7 +43,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({article, onAddToCart, onItemCl
                         <div className="text-sm text-gray-600 ml-2">({article.rating.toFixed(1)})</div>
                     </div>
                     <div className="text-lg font-bold mt-3">€{article.price.toFixed(2)}</div>
-                    <div className="text-lg font-bold mt-3">€{article.categoryId}</div>
                 </div>
                 <div className="flex mt-4">
                     <button

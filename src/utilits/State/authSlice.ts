@@ -78,10 +78,8 @@ export const loginUser = createAsyncThunk<User, { email: string, password: strin
             });
             return response.data.user;
         } catch (error: unknown) {
-            // First, check if it's an AxiosError
             if (error instanceof AxiosError) {
                 if (error.response) {
-                    // Now we can safely access error.response
                     return rejectWithValue({message: error.response.data as string});
                 } else {
                     return rejectWithValue({message: error.message});
@@ -127,7 +125,6 @@ const initialState: AuthState = {
     status: 'idle',
 };
 
-// Auth slice
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -169,7 +166,7 @@ const authSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.loading = false;
-                state.user = null; // Reset the user to null on successful logout
+                state.user = null;
                 state.status = 'succeeded';
             })
             .addCase(logoutUser.rejected, (state, action) => {

@@ -16,14 +16,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        // Calculate the total sum
         const sum = filteredProducts.reduce((acc, article) => acc + article.price * (article.quantity || 1), 0);
         setTotal(sum);
     }, [filteredProducts]);
-// Assuming currentOrder.order.articles is the array of article objects/IDs you want to fetch
     useEffect(() => {
         dispatch(fetchArticles());
-        // This useEffect is meant to run only once when the component mounts
     }, [dispatch]);
 
     useEffect(() => {

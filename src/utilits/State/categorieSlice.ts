@@ -1,15 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from "../../api/axios.ts";
 
-// Adjusted Category interface
 export interface Category {
-    _id: string;  // Using _id as it seems to be the identifier used in your data
+    _id: string;
     name: string;
-    subcategoryIds: string[];  // Array of subcategory IDs
-    // ... other category properties like __v if needed
+    subcategoryIds: string[];
 }
 
-// Define the state type for categories
 export interface CategoriesState {
     categories: Category[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';

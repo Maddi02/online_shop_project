@@ -1,4 +1,3 @@
-
 export interface Location {
     as: string;
     city: string;

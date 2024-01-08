@@ -8,7 +8,6 @@ import {fetchCategories} from '../../utilits/State/categorieSlice.ts';
 import {toggleCategory} from '../../utilits/State/selectedCategoriesSlice.ts';
 import {fetchSubcategories} from '../../utilits/State/subCategorieSlice.ts';
 import {toggleSubcategory} from "../../utilits/State/selectedSubcategoriesSlice.ts";
-
 interface SubcategoryItem {
     itemId: string;
     label: string;
@@ -23,7 +22,7 @@ const CategorieBar: React.FC = () => {
     const categories = useSelector((state: RootState) => state.categories.categories);
     const selectedCategories = useSelector((state: RootState) => state.selectedCategories.selectedCategories);
     const subcategories = useSelector((state: RootState) => state.subcategories.subcategories);
-    let subcategoryItems: SubcategoryItem[] = []; // Explicitly annotate the type
+    let subcategoryItems: SubcategoryItem[] = [];
     const selectedSubcategories = useSelector((state: RootState) => state.selectedSubcategories);
 
     useEffect(() => {
