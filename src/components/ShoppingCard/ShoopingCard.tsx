@@ -15,6 +15,7 @@ const ShoppingCart = () => {
     const user = useSelector((state: RootState) => state.auth.user);
     const navigate = useNavigate()
     const [showPayPal, setShowPayPal] = useState<boolean>(false)
+    console.log(cartItems)
     const handleHomeNavigation = () => {
         navigate("/home")
     }
@@ -86,6 +87,7 @@ const ShoppingCart = () => {
                                 <div>
                                     <h3 className="text-lg font-medium">{item.name}</h3>
                                     <p className="text-gray-500">€{item.price.toFixed(2)}</p>
+                                    <p className="text-gray-500">Available Quantity {item.maxQuantity}</p>
                                     <div className="flex items-center">
                                         <label htmlFor={`quantity-${item._id}`}
                                                className="text-sm text-gray-600 mr-2">Qty:</label>
@@ -94,9 +96,10 @@ const ShoppingCart = () => {
                                             id={`quantity-${item._id}`}
                                             value={item.quantity}
                                             onChange={(e) => handleQuantityChange(item._id, parseInt(e.target.value))}
+                                            onKeyDown={(e) => e.preventDefault()}    // prevent typing
                                             className="w-20 border border-gray-300 rounded p-1 text-center"
                                             min="1"
-                                            max={item.quantity}
+                                            max={item.maxQuantity}
                                         />
                                     </div>
                                 </div>
@@ -105,7 +108,7 @@ const ShoppingCart = () => {
                                 onClick={() => handleRemoveItem(item._id)}
                                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                             >
-                                Remove
+                            Remove
                             </button>
                         </li>
                     ))}

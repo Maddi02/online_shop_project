@@ -39,6 +39,7 @@ const Home = () => {
         const cartItem = {
             ...article,
             quantity: quantity,
+            maxQuantity: article.quantity
         };
 
         dispatch(addToCart(cartItem));

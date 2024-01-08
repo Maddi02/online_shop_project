@@ -10,6 +10,7 @@ export interface CartItem {
     categoryId: string;
     href: string;
     description: string;
+    maxQuantity: number
     quantity: number;
     rating: number;
     shortdescription: string;
@@ -75,6 +76,7 @@ const cartSlice = createSlice({
         updateQuantity: (state, action: PayloadAction<{ _id: string; quantity: number }>) => {
             const item = state.items.find(item => item._id === action.payload._id);
             if (item) {
+                console.log(action.payload.quantity)
                 item.quantity = action.payload.quantity;
             }
         },

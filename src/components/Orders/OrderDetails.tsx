@@ -34,13 +34,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
 
     const endProduct = useMemo(() => {
         return articles.filter(article =>
-            newFilteredProducts.some(purchase => purchase.articleId === article._id)
+            newFilteredProducts.some((purchase) => purchase.articleId === article._id)
         );
     }, [articles, newFilteredProducts]);
 
     useEffect(() => {
         setFilteredProducts(newFilteredProducts)
+        console.log(newFilteredProducts)
         setEndProducts(endProduct)
+        console.log(endProduct)
     }, [endProduct, newFilteredProducts]);
 
     console.log(endProduct)
@@ -59,7 +61,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
                                  style={{width: '50px', height: '50px', marginRight: '10px'}}/>
                             <div>
                                 <p><strong>Name:</strong> {article.name}</p>
-                                <p><strong>Quantity:</strong> {article.quantity}</p>
+                                <p><strong>Quantity:</strong> {filteredProducts.find(item => item.articleId === article._id)?.quantity}</p>
                                 <p><strong>Price:</strong> {article.price}$</p>
                             </div>
                         </li>
