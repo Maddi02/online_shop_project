@@ -17,11 +17,16 @@ export interface User {
     role: 'USER'
 }
 
+export interface UserArray{
+    user: User[]
+}
+
 interface CustomError {
     message: string;
 }
 
 interface AuthState {
+    userArray: User[]
     user: User | null;
     loading: boolean;
     error: string | null;
@@ -117,8 +122,29 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: CustomErro
     }
 );
 
+export const fetchUsers = createAsyncThunk<User[], void, { rejectValue: CustomError }>(
+    'auth/fetchUsers',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get('/shop/users/', {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            return response.data; // Assuming this is an array of users
+        } catch (error: unknown) {
+            console.log(error);
+            return rejectWithValue({message: 'Fehler beim Laden der Benutzer'});
+        }
+    }
+);
+
+
 
 const initialState: AuthState = {
+    userArray: [],
     user: null,
     loading: false,
     error: null,
@@ -173,7 +199,12 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload ? action.payload.message : 'An error occurred';
                 state.status = 'failed';
-            });
+            })
+            .addCase(fetchUsers.fulfilled, (state, action)=>{
+                state.loading = true
+                state.userArray = action.payload
+        });
+
     },
 });
 

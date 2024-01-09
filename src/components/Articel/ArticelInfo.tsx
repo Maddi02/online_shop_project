@@ -15,11 +15,12 @@ interface ArticleInfoProps {
 
 const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart}) => {
     const [quantity, setQuantity] = useState(1);
-
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         if (article && article._id) {
-            dispatch(fetchComments(article._id)).then().catch(error => {setError(error.message)});
+            dispatch(fetchComments(article._id)).then().catch(error => {
+                setError(error.message)
+            });
             dispatch(fetchRates(article._id));
         }
     }, [article, dispatch]);
@@ -79,7 +80,7 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
             <div className="pt-3">
                 <strong>Comments: ({filteredCommments.length})</strong>
                 {filteredCommments.map((comment, index) => (
-                    <ArticelComment key={index} comment={comment}/>
+                    <ArticelComment key={index} comment={comment} />
                 ))}
             </div>
 

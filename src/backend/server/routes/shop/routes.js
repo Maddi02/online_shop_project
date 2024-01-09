@@ -3,6 +3,7 @@ const Category = require('../../models/shop/category');
 const Order = require('../../models/shop/order');
 const Comment = require('../../models/shop/comment');
 const Subcategory = require('../../models/shop/subcategory');
+const User = require('../../models/user');
 const Rate = require('../../models/shop/rate');
 const mongoose = require('mongoose');
 const verifyToken = require('../session/verifyToken');
@@ -46,6 +47,16 @@ module.exports = function (app) {
         try {
             let categories = await Category.find();
             res.status(200).send(categories);
+        } catch (error) {
+            let errorObj = {body: req.body, errorMessage: "Server error!"};
+            res.status(500).send(errorObj);
+        }
+    });
+
+    app.get('/shop/users/', async function (req, res) {
+        try {
+            let user = await User.find();
+            res.status(200).send(user);
         } catch (error) {
             let errorObj = {body: req.body, errorMessage: "Server error!"};
             res.status(500).send(errorObj);
@@ -264,29 +275,28 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
     });
 
     app.patch('/shop/article/:articleId/:quantity', verifyToken, async function (req, res) {
-    try {
-        const articleId = req.params.articleId;
-        const { newQuantity } = req.body;
+        try {
+            const articleId = req.params.articleId;
+            const {newQuantity} = req.body;
 
-        if (!mongoose.Types.ObjectId.isValid(articleId)) {
-            return res.status(400).send({ message: "Invalid article ID" });
+            if (!mongoose.Types.ObjectId.isValid(articleId)) {
+                return res.status(400).send({message: "Invalid article ID"});
+            }
+
+            const article = await Article.findById(articleId);
+            if (!article) {
+                return res.status(404).send({message: "Article not found"});
+            }
+
+            article.quantity = article.quantity - newQuantity;
+            await article.save();
+
+            res.status(200).send({message: "Quantity updated successfully", article});
+        } catch (error) {
+            console.error("Error updating article quantity:", error);
+            res.status(500).send({message: "Server error"});
         }
-
-        const article = await Article.findById(articleId);
-        if (!article) {
-            return res.status(404).send({ message: "Article not found" });
-        }
-
-        article.quantity = article.quantity - newQuantity;
-        await article.save();
-
-        res.status(200).send({ message: "Quantity updated successfully", article });
-    } catch (error) {
-        console.error("Error updating article quantity:", error);
-        res.status(500).send({ message: "Server error" });
-    }
-});
-
+    });
 
 
 };
