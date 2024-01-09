@@ -2,20 +2,20 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axiosInstance from "../../api/axios.ts";
 
 export interface Comment {
-    articleId: string;
+    articleId: Comment[];
     comment: string;
     date: string;
     userId: string;
 }
 
 interface CommentState {
-    comments: { [key: string]: Comment };
+    comments: Comment[],
     loading: boolean;
     error: string | null;
 }
 
 const initialState: CommentState = {
-    comments: {},
+    comments: [],
     loading: false,
     error: null
 };
@@ -25,6 +25,7 @@ export const fetchComments = createAsyncThunk(
     async (articleId: string, {rejectWithValue}) => {
         try {
             const response = await axiosInstance.get(`/shop/comments/${articleId}`);
+            console.log(response)
             return response.data;
         } catch (error) {
             return rejectWithValue(error);
@@ -37,7 +38,7 @@ const commentSlice = createSlice({
     initialState,
     reducers: {
         addComment(state, action: PayloadAction<Comment>) {
-            state.comments[action.payload.articleId] = action.payload
+            state.comments.push(action.payload);
         },
         setError(state, action: PayloadAction<string>) {
             state.error = action.payload;
@@ -49,8 +50,7 @@ const commentSlice = createSlice({
                 state.loading = true;
             })
             .addCase(postComment.fulfilled, (state, action) => {
-                const comment = action.payload;
-                state.comments[comment.articleId] = comment; // or use the appropriate unique key
+                state.comments = action.payload;
                 state.loading = false;
                 state.loading = false;
             })
@@ -62,9 +62,7 @@ const commentSlice = createSlice({
             state.error = null;
         })
             .addCase(fetchComments.fulfilled, (state, action) => {
-                action.payload.forEach((comment: Comment) => {
-                    state.comments[comment.articleId] = comment;
-                });
+                state.comments = action.payload;
                 state.loading = false;
                 state.loading = false;
             })
@@ -90,7 +88,10 @@ export const postComment = createAsyncThunk(
             dispatch(addComment(response.data));
             return response.data;
         } catch (error) {
-            rejectWithValue(error)
+            if (error instanceof Error) {
+                return rejectWithValue({ message: error.message });
+            }
+            return rejectWithValue({ message: 'An unexpected error occurred' });
         }
     }
 );

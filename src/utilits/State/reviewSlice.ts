@@ -62,8 +62,7 @@ const reviewSlice = createSlice({
                 state.reviews =  action.payload
                 state.loading = false;
             })
-            .addCase(fetchRates.rejected, (state, action) => {
-                state.error = action.payload as string;
+            .addCase(fetchRates.rejected, (state) => {
                 state.loading = false;
             })
             .addCase(postReview.pending, (state) => {
@@ -96,7 +95,10 @@ export const postReview = createAsyncThunk(
             dispatch(addReview(response.data));
             return response.data;
         } catch (error) {
-            return rejectWithValue(error);
+            if (error instanceof Error) {
+                return rejectWithValue({ message: error.message });
+            }
+            return rejectWithValue({ message: 'An unexpected error occurred' });
         }
     }
 );

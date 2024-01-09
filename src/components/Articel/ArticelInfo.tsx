@@ -4,7 +4,8 @@ import {BsArrowLeft} from "react-icons/bs";
 import {fetchComments} from "../../utilits/State/commentSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
-import {fetchRates} from "../../utilits/State/reviewSlice.ts";
+import {fetchRates, setError} from "../../utilits/State/reviewSlice.ts";
+import ArticelComment from "./ArticelComment.tsx";
 
 interface ArticleInfoProps {
     article: Article;
@@ -16,18 +17,24 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
     const [quantity, setQuantity] = useState(1);
 
     const dispatch = useDispatch<AppDispatch>()
-       useEffect(() => {
+    useEffect(() => {
         if (article && article._id) {
-            dispatch(fetchComments(article._id));
+            dispatch(fetchComments(article._id)).then().catch(error => {setError(error.message)});
             dispatch(fetchRates(article._id));
         }
     }, [article, dispatch]);
-      const comments = useSelector((state: RootState) => state.commend.comments);
-      const reviews = useSelector((state: RootState) => state.review.reviews);
-      const filteredReviews = Object.values(reviews).filter(review => review.articleId === article._id)
-      const filteredCommments = Object.values(comments).filter(comment => comment.articleId === article._id)
-        console.log(filteredReviews.map((a) => console.log(a.rate)))
-        console.log(filteredCommments.map((a) => console.log(a.comment)))
+    const comments = useSelector((state: RootState) => state.commend.comments);
+    const reviews = useSelector((state: RootState) => state.review.reviews);
+    const filteredReviews = Object.values(reviews).filter(review => review.articleId === article._id)
+    const filteredCommments = Object.values(comments).filter(comment => comment.articleId === article._id)
+    console.log(comments)
+    const totalRate = filteredReviews.reduce((total, review) => total + review.rate, 0);
+    const averageRate = filteredReviews.length > 0 ? totalRate / filteredReviews.length : 0;
+
+    console.log(filteredCommments.map((a) => console.log(a.comment)))
+    console.log(filteredCommments.map((a) => console.log(a.date)))
+    console.log(filteredCommments.map((a) => console.log(a.userId)))
+
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg">
             <button
@@ -44,7 +51,9 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
                     <div className="text-gray-600 text-sm mb-2">{article.shortdescription}</div>
                     <div className="text-gray-600 mb-2">Quantity: {article.quantity}</div>
                     <div className="text-green-600 font-bold mb-2">Price: €{article.price}</div>
-                    <div className="text-yellow-500 mb-2">Rating: {article.rating} / 5</div>
+                    <div className="text-yellow-500 mb-2">Rating: {averageRate.toFixed(2)}/ 5
+                        ({filteredReviews.length})
+                    </div>
                 </div>
             </div>
 
@@ -72,6 +81,13 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
                     </button>
                 </div>
             </div>
+            <div className="pt-3">
+                <strong>Comments: ({filteredCommments.length})</strong>
+                {filteredCommments.map((comment) => (
+                    <ArticelComment comment={comment}/>
+                ))}
+            </div>
+
         </div>
     );
 }
