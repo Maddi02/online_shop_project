@@ -1,6 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Article} from "../../utilits/State/productSlice.ts";
-import { BsArrowLeft } from "react-icons/bs";
+import {BsArrowLeft} from "react-icons/bs";
+import {fetchComments} from "../../utilits/State/commentSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../utilits/State/store.ts";
+import {fetchRates} from "../../utilits/State/reviewSlice.ts";
+
 interface ArticleInfoProps {
     article: Article;
     onBack: () => void;
@@ -10,6 +15,19 @@ interface ArticleInfoProps {
 const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart}) => {
     const [quantity, setQuantity] = useState(1);
 
+    const dispatch = useDispatch<AppDispatch>()
+       useEffect(() => {
+        if (article && article._id) {
+            dispatch(fetchComments(article._id));
+            dispatch(fetchRates(article._id));
+        }
+    }, [article, dispatch]);
+      const comments = useSelector((state: RootState) => state.commend.comments);
+      const reviews = useSelector((state: RootState) => state.review.reviews);
+      const filteredReviews = Object.values(reviews).filter(review => review.articleId === article._id)
+      const filteredCommments = Object.values(comments).filter(comment => comment.articleId === article._id)
+        console.log(filteredReviews.map((a) => console.log(a.rate)))
+        console.log(filteredCommments.map((a) => console.log(a.comment)))
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg">
             <button

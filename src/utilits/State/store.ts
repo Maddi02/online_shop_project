@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import locationReducer from './locationsSlice'; // If this is a TypeScript file
+import locationReducer from './locationsSlice';
 import authReducer from './authSlice.ts';
 import subcategoriesReducer from './subCategorieSlice.ts';
 import categoriesReducer from './categorieSlice.ts';
@@ -9,6 +9,8 @@ import selectedCategoriesReducer from "./selectedCategoriesSlice.ts"
 import selectedSubCategoriesReducer from "./selectedSubcategoriesSlice.ts"
 import cardReducer from "./cardSlice.ts"
 import orderReducer from "./orderSlice.ts"
+import reviewReducer from "./reviewSlice.ts"
+import commentReducer from "./commentSlice.ts"
 
 export const store = configureStore({
     reducer: {
@@ -22,6 +24,8 @@ export const store = configureStore({
         selectedSubcategories:selectedSubCategoriesReducer,
         card: cardReducer,
         order: orderReducer,
+        review: reviewReducer,
+        commend: commentReducer
 
     }
 });

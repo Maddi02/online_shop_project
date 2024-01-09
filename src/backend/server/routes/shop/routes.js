@@ -85,20 +85,31 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/shop/rates/:articleId', async function (req, res) {
+    try {
+        const articleId = req.params.articleId;
+
+        if (!mongoose.Types.ObjectId.isValid(articleId)) {
+            return res.status(400).send({ message: "Invalid article ID" });
+        }
+
+        let rates = await Rate.find({ articleId: articleId });
+        res.status(200).send(rates);
+    } catch (error) {
+        console.error("Error fetching rates:", error);
+        let errorObj = { errorMessage: "Server error!" };
+        res.status(500).send(errorObj);
+    }
+});
+
+
 
 app.post('/shop/order', async (req, res) => {
     try {
         const { userId, articles, orderNr, orderDate } = req.body;
-        console.log(userId);
-        console.log(req.body);
 
-        // Check if userId is a string and has a length of 24 characters
-
-
-        // Map over articles and convert articleId to ObjectId
         const mappedArticles = articles.map(a => {
             if (typeof a.articleId !== 'string' || a.articleId.length !== 24) {
-                console.log("Invalid article ID");
                 throw new Error("Invalid article ID");
             }
             return {
@@ -172,66 +183,35 @@ app.post('/shop/order', async (req, res) => {
     });
 
 
-    app.post('/shop/rate/', verifyToken, async function (req, res) {
-        try {
-            let orders = await Order.find({userId: req.user.id}).sort({orderNr: 'desc'});
-
-            let boughtArticle = false;
-            loop:
-                for (let i = 0; i < orders.length; i++) {
-                    for (let j = 0; j < orders[i].articles.length; j++) {
-                        if (req.body.articleId == orders[i].articles[j].articleId) {
-                            boughtArticle = true;
-                            break loop;
-                        }
-                    }
-                }
-
-
-            if (boughtArticle) {
-
-                let ratings = await Rate.find({articleId: req.body.articleId});
-
-                let newRating = 0;
-                let rated = false;
-                for (let i = 0; i < ratings.length; i++) {
-
-                    if (ratings[i].userId == req.user.id) {
-                        rated = true;
-                        break;
-                    }
-                    newRating = newRating + rating[i];
-                }
-
-
-                if (!rated) {
-
-                    newRating = newRating + req.body.rate;
-                    newRating = newRating / (ratings.length + 1);
-
-                    await Article.findByIdAndUpdate({_id: req.body.articleId}, {"rating": newRating});
-
-                    let rateData = req.body;
-                    let rate = new Rate(rateData);
-                    rate.save(function (err) {
-                        if (err) {
-                            res.status(422).send("Data are not correct!");
-                        } else {
-                            res.status(201).send("Rating was successful!");
-                        }
-                    });
-                } else {
-                    res.status(422).send("Article was already rated!");
-                }
-            } else {
-                res.status(422).send("Article was not bought, can not be rated!");
-            }
-
-        } catch (error) {
-            let errorObj = {body: req.body, errorMessage: "Server error!"};
-            res.status(500).send(errorObj);
+app.post('/shop/rate/', verifyToken, async function (req, res) {
+    try {
+        // Destructure and validate the request body
+        const { rate, articleId, userId } = req.body;
+        console.log(rate)
+        const numericRate = Number(rate);
+        if (isNaN(numericRate)) {
+            console.log("Invalid rate value");
         }
-    });
+        if (!articleId || !userId || rate === undefined) {
+            console.log("Missing required fields");
+        }
+
+        let newRate = new Rate({
+            rate,
+            articleId,
+            userId
+        });
+
+        // Save the rating
+        await newRate.save();
+
+        res.status(201).send("Rating was successful!");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Server error", error: error.message });
+    }
+});
+
 
 
     app.post('/shop/category', async (req, res) => {
@@ -304,7 +284,6 @@ app.post('/shop/order', async (req, res) => {
     app.patch('/shop/article/:articleId/:quantity', verifyToken, async function (req, res) {
     try {
         const articleId = req.params.articleId;
-        console.log("REQEST: ", req.body);
         const { newQuantity } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(articleId)) {

@@ -56,9 +56,7 @@ module.exports = function (app) {
                 let pw = SHA256(userData.password);
 
                 if (user.password === pw.toString()) {
-                    console.log("Generating jwt");
                     const token = generateToken(res, userData.email, user._id);
-                    console.log(token)
 
                     // Update the response to include the token
                     res.status(201).json({
