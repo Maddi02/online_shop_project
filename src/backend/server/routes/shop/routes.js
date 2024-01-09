@@ -187,14 +187,6 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
     try {
         // Destructure and validate the request body
         const { rate, articleId, userId } = req.body;
-        console.log(rate)
-        const numericRate = Number(rate);
-        if (isNaN(numericRate)) {
-            console.log("Invalid rate value");
-        }
-        if (!articleId || !userId || rate === undefined) {
-            console.log("Missing required fields");
-        }
 
         let newRate = new Rate({
             rate,
@@ -202,8 +194,10 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
             userId
         });
 
-        // Save the rating
         await newRate.save();
+        const rates = await Rate.find({ articleId: articleId })
+        const averageRate = rates.reduce((acc, cur) => acc + cur.rate, 0) / rates.length;
+        await Article.findByIdAndUpdate(articleId, { $set: { rating: averageRate }});
 
         res.status(201).send("Rating was successful!");
     } catch (error) {
@@ -211,6 +205,7 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
         res.status(500).send({ message: "Server error", error: error.message });
     }
 });
+
 
 
 
