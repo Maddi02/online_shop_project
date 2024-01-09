@@ -24,7 +24,6 @@ const PayPal: React.FC<PayPalProps> = ({ totalPrice , onPaymentSuccess}) => {
     };
 
     const onApprove: PayPalButtonsComponentProps['onApprove'] = () => {
-        console.log("Finished successfully");
        onPaymentSuccess()
         return Promise.resolve();
     };

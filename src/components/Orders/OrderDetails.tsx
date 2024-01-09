@@ -42,18 +42,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
 
     useEffect(() => {
         setFilteredProducts(newFilteredProducts)
-        console.log(newFilteredProducts)
         setEndProducts(endProduct)
-        console.log(endProduct)
     }, [endProduct, newFilteredProducts]);
 
     const handleCommentField = (state: boolean) => {
         setCommentField(state)
     }
 
-    console.log(endProduct)
-
-    console.log(filteredProducts, "Filtered")
     return (
         <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
             <h1 className="text-3xl font-semibold mb-4 text-center">Order Details</h1>

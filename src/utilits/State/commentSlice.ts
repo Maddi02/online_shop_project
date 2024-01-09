@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axiosInstance from "../../api/axios.ts";
 
 export interface Comment {
-    articleId: Comment[];
+    articleId: string;
     comment: string;
     date: string;
     userId: string;
@@ -25,7 +25,6 @@ export const fetchComments = createAsyncThunk(
     async (articleId: string, {rejectWithValue}) => {
         try {
             const response = await axiosInstance.get(`/shop/comments/${articleId}`);
-            console.log(response)
             return response.data;
         } catch (error) {
             return rejectWithValue(error);

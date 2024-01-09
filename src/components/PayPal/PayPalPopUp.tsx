@@ -5,7 +5,6 @@ interface PayPalPopUpProps {
 }
 const PayPalPopUp: React.FC<PayPalPopUpProps> = ({ show, onClose, children }) => {
     if (!show) {
-        console.log("show", show)
         return null;
     }
 

@@ -27,13 +27,8 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
     const reviews = useSelector((state: RootState) => state.review.reviews);
     const filteredReviews = Object.values(reviews).filter(review => review.articleId === article._id)
     const filteredCommments = Object.values(comments).filter(comment => comment.articleId === article._id)
-    console.log(comments)
     const totalRate = filteredReviews.reduce((total, review) => total + review.rate, 0);
     const averageRate = filteredReviews.length > 0 ? totalRate / filteredReviews.length : 0;
-
-    console.log(filteredCommments.map((a) => console.log(a.comment)))
-    console.log(filteredCommments.map((a) => console.log(a.date)))
-    console.log(filteredCommments.map((a) => console.log(a.userId)))
 
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg">
@@ -83,8 +78,8 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({article, onBack, onAddToCart})
             </div>
             <div className="pt-3">
                 <strong>Comments: ({filteredCommments.length})</strong>
-                {filteredCommments.map((comment) => (
-                    <ArticelComment comment={comment}/>
+                {filteredCommments.map((comment, index) => (
+                    <ArticelComment key={index} comment={comment}/>
                 ))}
             </div>
 

@@ -8,7 +8,4 @@ module.exports = rentedSchema = new mongoose.Schema({
     price:{type:Number,required:true},
 });
 
-//const rentedModel = mongoose.model('rented',rentedSchema);
-
-//module.exports = rentedModel;
 

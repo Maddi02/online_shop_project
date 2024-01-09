@@ -48,7 +48,6 @@ const orderSlice = createSlice({
             .addCase(fetchOrders.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.orders = action.payload;
-                console.log(state.orders);
             })
             .addCase(fetchOrders.rejected, (state, action) => {
                 state.status = "failed";

@@ -119,15 +119,6 @@ app.post('/shop/order', async (req, res) => {
             };
         });
 
-        //         if (typeof user.userId !== 'string' || user.userId.length !== 24) {
-        //     console.log("Invalid user ID");
-        //     console.log(user.userId, "Invalid user ID");
-        //     console.log(user.userId.length, "Invalid user ID");
-        //
-        //      throw new Error("Invalid article ID");
-        // }
-
-        // Create a new order
         const newOrder = new Order({
             orderNr,
             articles: mappedArticles,
@@ -185,7 +176,6 @@ app.post('/shop/order', async (req, res) => {
 
 app.post('/shop/rate/', verifyToken, async function (req, res) {
     try {
-        // Destructure and validate the request body
         const { rate, articleId, userId } = req.body;
 
         let newRate = new Rate({
@@ -215,7 +205,6 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
             const convertedIds = subcategoryIds.map(id => Types.ObjectId(id));
             const uniqueIds = [...new Set(convertedIds)];
 
-            // Check for existing category with the same name and subcategoryIds
             const existingCategory = await Category.findOne({
                 name,
                 subcategoryIds: {$in: uniqueIds}
@@ -237,7 +226,6 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
     app.post('/shop/subcategory', verifyToken, function (req, res) {
         let categoryData = req.body;
 
-        // Replace 'name' with the field you want to check for uniqueness
         Subcategory.findOne({name: categoryData.name}, function (err, existingCategory) {
             if (err) {
                 res.status(500).send("Server error while checking for duplicates");
@@ -266,13 +254,12 @@ app.post('/shop/rate/', verifyToken, async function (req, res) {
                 return res.status(409).send("A product with this name already exists"); // 409 Conflict
             }
 
-            // Create and save the new product
             let product = new Article(productData);
             await product.save();
-            res.status(201).send("Product was successfully added!"); // 201 Created
+            res.status(201).send("Product was successfully added!");
         } catch (error) {
             console.error(error);
-            res.status(500).send("Server error while processing request"); // 500 Internal Server Error
+            res.status(500).send("Server error while processing request");
         }
     });
 

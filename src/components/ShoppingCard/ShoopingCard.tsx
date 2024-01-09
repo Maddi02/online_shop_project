@@ -15,7 +15,6 @@ const ShoppingCart = () => {
     const user = useSelector((state: RootState) => state.auth.user);
     const navigate = useNavigate()
     const [showPayPal, setShowPayPal] = useState<boolean>(false)
-    console.log(cartItems)
     const handleHomeNavigation = () => {
         navigate("/home")
     }

@@ -15,9 +15,6 @@ export default function App() {
   const adminEmail = import.meta.env.VITE_REACT_APP_ADMIN_EMAIL;
 
 
-  console.log(user?.email);
-  console.log(adminEmail);
-
   return (
     <Router>
       <Routes>

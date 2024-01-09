@@ -50,8 +50,6 @@ const CategorieBar: React.FC = () => {
         dispatch(toggleCategory({categoryId: category._id, subcategoryIds: category.subcategoryIds}));
     };
 
-    console.log('Selected Categories:', selectedCategories);
-
     return (
         <div>
             <div className="flex-col scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 w-screen">

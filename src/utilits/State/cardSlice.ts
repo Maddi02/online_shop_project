@@ -37,7 +37,7 @@ export const createOrder = createAsyncThunk(
         const state = getState() as RootState;
         const cartItems = state.card.items;
         cartItems.map(async (a) => {
-            const response = await axiosInstance.patch(`/shop/article/${a._id}/quantity`, {
+              await axiosInstance.patch(`/shop/article/${a._id}/quantity`, {
                 newQuantity: a.quantity
             }, {
                 withCredentials: true,
@@ -46,8 +46,6 @@ export const createOrder = createAsyncThunk(
                     "Content-Type": "application/json"
                 },
             });
-
-            console.log('Quantity updated successfully:', response.data);
         });
 
 
@@ -69,7 +67,6 @@ export const createOrder = createAsyncThunk(
             },
             withCredentials: true
         });
-        console.log(response.data)
         return response.data;
     }
 );
@@ -90,7 +87,6 @@ const cartSlice = createSlice({
         updateQuantity: (state, action: PayloadAction<{ _id: string; quantity: number }>) => {
             const item = state.items.find(item => item._id === action.payload._id);
             if (item) {
-                console.log(action.payload.quantity)
                 item.quantity = action.payload.quantity;
             }
         },

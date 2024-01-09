@@ -36,9 +36,9 @@ const ReviewComponent: React.FC<ReviewComponentsProps> = ({handelReviewfield, ar
             userId: user._id,
             date: date
         };
-
         dispatch(postReview(reviewData));
         dispatch(postComment(commentData));
+        handelReviewfield(false)
     };
 
 

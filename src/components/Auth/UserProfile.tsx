@@ -12,7 +12,6 @@ const UserProfile = () => {
     const user: User | null = useMemo(() => authState.user, [authState.user]);
 
     const logout = async () => {
-        console.log("Wanna lock out ")
         await dispatch(logoutUser())
         if (authState.loading) {
             return <div>Loading...</div>;
@@ -39,7 +38,7 @@ const UserProfile = () => {
                 <div onClick={handleHomeNavigation}>
                     <img
                         className="mx-auto h-12 w-auto"
-                        src="src/assets/madiizne.png" // Replace with your logo url
+                        src="src/assets/madiizne.png"
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-xl font-extrabold text-gray-900">

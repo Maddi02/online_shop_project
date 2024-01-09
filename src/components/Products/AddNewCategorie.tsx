@@ -52,7 +52,7 @@ const AddNewCategorie = () => {
                     <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
                         <img
                             className="mx-auto h-12 w-auto"
-                            src="src/assets/madiizne.png" // Replace with your logo url
+                            src="src/assets/madiizne.png"
                             alt="Workflow"
                         />
                         <h2 className="mt-6 text-center text-xl font-extrabold text-gray-900">

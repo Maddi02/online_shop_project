@@ -3,7 +3,7 @@ import {RootState} from "./store.ts";
 
 interface SelectedCategoriesState {
     selectedCategories: {
-        [categoryId: string]: string[]; // Maps category IDs to an array of subcategory IDs
+        [categoryId: string]: string[];
     };
 }
 
@@ -18,10 +18,8 @@ const selectedCategoriesSlice = createSlice({
         toggleCategory: (state, action: PayloadAction<{ categoryId: string, subcategoryIds: string[] }>) => {
             const { categoryId, subcategoryIds } = action.payload;
             if (state.selectedCategories[categoryId]) {
-                // If the category is already selected, remove it
                 delete state.selectedCategories[categoryId];
             } else {
-                // If the category is not selected, add it along with its subcategory IDs
                 state.selectedCategories[categoryId] = subcategoryIds;
             }
         },

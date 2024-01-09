@@ -27,7 +27,7 @@ export default function Sidebar({children}: SidebarProps) {
         <div className="fixed inset-y-0 left-0 z-20 flex">
             <aside
                 className={`bg-white overflow-y-auto transition-width duration-300 ease-in-out ${
-                    expanded ? 'w-64' : 'hidden' // Adjust these widths as needed
+                    expanded ? 'w-64' : 'hidden' 
                 }`}
             >
                 <div className="p-4 pb-2 flex justify-between items-center" onClick={handleHomeNavigation}>
@@ -58,7 +58,7 @@ export default function Sidebar({children}: SidebarProps) {
             {!expanded && (
                 <button
                     onClick={() => setExpanded(true)}
-                    className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 ml-auto" // Adjust styles as needed
+                    className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 ml-auto"
                 >
                     <ChevronLast/>
                 </button>

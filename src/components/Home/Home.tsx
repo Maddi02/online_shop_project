@@ -34,7 +34,6 @@ const Home = () => {
     });
 
     const handleAddToCart = (article: Article, quantity: number) => {
-        console.log("Adding to cart", article, quantity);
 
         const cartItem = {
             ...article,
@@ -53,18 +52,14 @@ const Home = () => {
     }
 
     const handleOnItemClick = (article: Article) => {
-        console.log("On Item clicked", article);
         setSelectedArticle(article);
     };
-
-
-    console.log('Filtered Products:', filteredProducts);
 
     return (
         <div>
             {filteredProducts.map((product) => (
                 <ArticleCard
-                    key={product._id} // Assuming each product has a unique _id
+                    key={product._id}
                     article={product}
                     onAddToCart={handleAddToCart}
                     onItemClicked={() => handleOnItemClick(product)}
