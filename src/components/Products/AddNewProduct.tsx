@@ -202,6 +202,8 @@ const AddNewProduct = () => {
                                 id="rating"
                                 type="number"
                                 placeholder="Rating"
+                                min={0}
+                                max={5}
                                 value={rating}
                                 onChange={(e) => handleRatingChange(e)}
                             />

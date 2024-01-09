@@ -3,6 +3,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../utilits/State/store.ts";
 import {Article, fetchArticles} from "../../utilits/State/productSlice.ts";
+import ReviewComponent from "./ReviewComponent.tsx";
 
 interface OrderDetailsProps {
     order: Order;
@@ -15,6 +16,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
     const [filteredProducts, setFilteredProducts] = useState<Article[]>([])
     const [endProducts, setEndProducts] = useState<Article[]>([])
     const [total, setTotal] = useState(0);
+    const [showCommentField, setCommentField] = useState(false)
 
 
     useEffect(() => {
@@ -45,6 +47,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
         console.log(endProduct)
     }, [endProduct, newFilteredProducts]);
 
+    const handleCommentField = (state: boolean) => {
+        setCommentField(state)
+    }
+
     console.log(endProduct)
 
     console.log(filteredProducts, "Filtered")
@@ -56,14 +62,26 @@ const OrderDetails: React.FC<OrderDetailsProps> = (currentOrder) => {
                 <p className="text-gray-500">{new Date(currentOrder.order.orderDate).toLocaleDateString()}</p>
                 <ul>
                     {endProducts.map((article) => (
-                        <li key={article._id} className="flex items-center mb-4">
-                            <img src={article.href} alt={article.name}
-                                 style={{width: '50px', height: '50px', marginRight: '10px'}}/>
-                            <div>
-                                <p><strong>Name:</strong> {article.name}</p>
-                                <p><strong>Quantity:</strong> {filteredProducts.find(item => item.articleId === article._id)?.quantity}</p>
-                                <p><strong>Price:</strong> {article.price}$</p>
+                        <li key={article._id} className="flex flex-wrap md:flex-nowrap items-center mb-4">
+                            <div className="flex items-center mb-4 md:mb-4 md:mr-4">
+                                <img src={article.href} alt={article.name}
+                                     className="w-12 h-12 mr-4"/>
+                                <div>
+                                    <p><strong>Name:</strong> {article.name}</p>
+                                    <p>
+                                        <strong>Quantity:</strong> {filteredProducts.find(item => item.articleId === article._id)?.quantity}
+                                    </p>
+                                    <p><strong>Price:</strong> {article.price}$</p>
+                                    {!showCommentField && (
+                                        <button className="text-blue-800" onClick={() => handleCommentField(true)}>Write
+                                            a review</button>
+                                    )}
+                                </div>
+
                             </div>
+                            {showCommentField && (
+                                <ReviewComponent handelReviewfield={handleCommentField} article={article}/>
+                            )}
                         </li>
                     ))}
                 </ul>
